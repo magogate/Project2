@@ -1,0 +1,88 @@
+/* header section */
+.header{
+    background-color: #f1f8fd;
+    height: 150px;    
+}
+.navbar{        
+    background-color: #f1f8fd !important;
+    padding: 5% 7%;
+    box-shadow: 0px 0.5px #fff;        
+}
+.nav-item{
+    padding-left: 2%;
+    padding-right: 2%;
+    font-family: 'Roboto Slab', serif;
+    font-size: 25px;
+    font-weight: bold;
+    font-style: normal ;
+    line-height: 1.875rem ;
+}
+
+/* treemap section */
+.locations{
+    height: 600px;
+    background-color: #f1f8fd;        
+    font-family: 'Roboto', sans-serif;
+    padding: 5% 10%;
+    font-style: normal ;
+    line-height: 1.875rem ;
+    letter-spacing: .1px;
+    padding-bottom: 44%;
+}
+h3{
+    font-weight: bolder !important;
+}
+h4{
+    font-weight: bolder !important;
+}
+.row{
+    margin: 0;
+}
+
+/* barChart section */
+.time{
+    height: 600px;
+    background-color: #005691;        
+    font-family: 'Roboto', sans-serif;
+    padding: 5% 10%;
+    font-style: normal ;
+    line-height: 1.875rem ;
+    letter-spacing: .1px;
+    color: #fff;
+    padding-bottom: 44%;
+}
+
+.weather{
+    height: 600px;
+    background-color: #f1f8fd;        
+    font-family: 'Roboto', sans-serif;
+    padding: 5% 10%;
+    font-style: normal ;
+    line-height: 1.875rem ;
+    letter-spacing: .1px;
+    padding-bottom: 44%;   
+}
+
+.maps{
+    height: 600px;
+    padding: 5% 10%;
+    background-color: #005691;        
+    text-align: center;
+    color: #fff;
+}
+
+/* footer section */
+.footer{
+    height: 60px;
+    background-color: #f1f8fd;        
+    font-family: 'Roboto', sans-serif;    
+    font-style: normal ;    
+    line-height: 1.875rem ;
+    letter-spacing: .1px;      
+}
+
+h6{
+    margin: 0; 
+    font-weight: bold;
+    padding: 2% 10%;
+}
