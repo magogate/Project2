@@ -40,6 +40,8 @@ function getAccidentsByCities(data){
     acciCntByCities.push({ child: "GA", parent: "", value:"" });   
 
     // this is to sort values in desc order so that box will get render in order
+    // compareValues function is defined at the top
+    // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
     acciCntByCities.sort(compareValues('value', 'desc'))
     renderTreeMap(acciCntByCities)
 }//end of getAccidentsByCities
