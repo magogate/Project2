@@ -29,10 +29,28 @@ function compareValues(key, order = 'asc') {
   }//end of compareValues
 
 let cmbLocation = d3.select("#selectLocation");
+let cmbFilters = d3.select("#selectFilters");
 
 cmbLocation.on("change", function(d){    
     let location = this.value;
-    rendertAccidentsByLocation(accidentData, location)
+    let colName = d3.select("#selectFilters").property("value");
+
+    filteredData = accidentData.filter(function(d){
+                      return colName == "All" ? true : d[colName] == "TRUE";
+                    })
+
+    rendertAccidentsByLocation(filteredData, location)
+})
+
+cmbFilters.on("change", function(d){
+  let colName = this.value;
+  let location = d3.select("#selectLocation").property("value");
+
+  filteredData = accidentData.filter(function(d){
+                      return colName == "All" ? true : d[colName] == "TRUE";
+                    })
+  
+  rendertAccidentsByLocation(filteredData, location)
 })
 
 d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {

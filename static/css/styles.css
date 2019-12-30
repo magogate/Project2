@@ -41,6 +41,9 @@ h4{
 .custom-select{
     width: 50%;
 }
+.pFilters{
+    padding-top: 4%;
+}
 /* barChart section */
 .time{
     height: 600px;
