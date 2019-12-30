@@ -70,7 +70,8 @@ function renderTreeMap(data){
                     .attr('class', 'd3-tip')
                     .offset([-10, 0])                   
                     .html(function(d) {                      
-                        return "<table class='toolTipTable'><tr class='toolTipData'><td><strong>City</strong> </td><td><span style='color:red'>" + d.id + "</span></td></tr><tr class='toolTipData'><td><strong>Accidents</strong> </td><td><span style='color:red'>" + d.value + "</span></td></tr></table>"; 
+                        console.log(d)
+                        return "<table class='toolTipTable'><tr class='toolTipData'><td><strong>City</strong> </td><td><span style='color:red'>" + d.id + "</span></td></tr><tr class='toolTipData'><td><strong>Accidents</strong> </td><td><span style='color:red'>" + d.value + " (" + d.data.percentage +"%)</span></td></tr></table>"; 
                     });
      // Step 2: Create the tooltip in svg.
     svg.call(toolTip);

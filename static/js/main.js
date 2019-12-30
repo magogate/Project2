@@ -2,7 +2,7 @@
 
 // https://observablehq.com/@d3/d3-stratify
 
-
+var acciCntByCities;
 // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 function compareValues(key, order = 'asc') {
     return function innerSort(a, b) {
@@ -34,7 +34,7 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
 })
 
 function getAccidentsByCities(data){
-    let acciCntByCities = aggregateData(data, "City");
+    acciCntByCities = aggregateData(data, "City");
     
     // https://stackoverflow.com/questions/14234646/adding-elements-to-object/14234701
     acciCntByCities.push({ child: "GA", parent: "", value:"" });   
@@ -48,6 +48,14 @@ function getAccidentsByCities(data){
 
 // http://learnjsdata.com/group_data.html
 function aggregateData(data, colKey){
+    let total = d3.nest()
+                      .rollup(function(v){
+                          return v.length;
+                      })
+                      .entries(data);
+    
+    console.log(total);
+
     let aggData = d3.nest()
                         .key(function(d){
                             return d[colKey];
@@ -60,7 +68,8 @@ function aggregateData(data, colKey){
                             return {
                                     child: d.key,
                                     parent: "GA",
-                                    value: d.value
+                                    value: d.value,
+                                    percentage: Math.round((d.value/total)*100,2)
                             }
                         });
 
