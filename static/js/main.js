@@ -2,7 +2,8 @@
 
 // https://observablehq.com/@d3/d3-stratify
 
-var acciCntByCities;
+let accidentData;
+
 // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 function compareValues(key, order = 'asc') {
     return function innerSort(a, b) {
@@ -27,35 +28,43 @@ function compareValues(key, order = 'asc') {
     };
   }//end of compareValues
 
+let cmbLocation = d3.select("#selectLocation");
+
+cmbLocation.on("change", function(d){    
+    let location = this.value;
+    rendertAccidentsByLocation(accidentData, location)
+})
 
 d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     // console.log(myData);    
-    getAccidentsByCities(myData)
+    accidentData = myData;
+    let location = "City"
+    rendertAccidentsByLocation(accidentData, location)
 })
 
-function getAccidentsByCities(data){
-    acciCntByCities = aggregateData(data, "City");
+function rendertAccidentsByLocation(data, location){
+    let acciCntByLoc = aggregateData(data, location);
     
     // https://stackoverflow.com/questions/14234646/adding-elements-to-object/14234701
-    acciCntByCities.push({ child: "GA", parent: "", value:"" });   
+    acciCntByLoc.push({ child: "GA", parent: "", value:"" });   
 
     // this is to sort values in desc order so that box will get render in order
     // compareValues function is defined at the top
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
-    acciCntByCities.sort(compareValues('value', 'desc'))
-    renderTreeMap(acciCntByCities)
+    acciCntByLoc.sort(compareValues('value', 'desc'))
+    renderTreeMap(acciCntByLoc, location)
 }//end of getAccidentsByCities
 
 // http://learnjsdata.com/group_data.html
 function aggregateData(data, colKey){
+  //to get the total accident counts of dataset
     let total = d3.nest()
                       .rollup(function(v){
                           return v.length;
                       })
                       .entries(data);
-    
-    console.log(total);
 
+  //to generate the dataset based on selection
     let aggData = d3.nest()
                         .key(function(d){
                             return d[colKey];

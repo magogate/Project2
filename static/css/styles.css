@@ -38,7 +38,9 @@ h4{
 .row{
     margin: 0;
 }
-
+.custom-select{
+    width: 50%;
+}
 /* barChart section */
 .time{
     height: 600px;
