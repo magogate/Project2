@@ -40,6 +40,8 @@ function renderTreeMap(data, location){
             .padding(4)
             (root)    
 
+    console.log(root)
+
     // use this information to add rectangles:
     let rects = svg
                 .selectAll("rect")
@@ -54,19 +56,19 @@ function renderTreeMap(data, location){
                     .style("fill", "#69b3a2");
 
     // and to add the text labels
-    svg
-        .selectAll("text")
-        .data(root.leaves())
-        .enter()
-        .append("text")
-            .attr("x", function(d){ return d.x0 + 2})    
-            .attr("y", function(d){ return d.y1 - 4})    // positioning text at bottom of a rectangle
-            .text(function(d){ 
-                    return ((d.x1 - d.x0) > 32) ? d.data.child : "";
-                })
-            .attr("font-size", "12px")
-            // .attr("font-weight", "bold")
-            .attr("fill", "white")
+    // svg
+    //     .selectAll("text")
+    //     .data(root.leaves())
+    //     .enter()
+    //     .append("text")
+    //         .attr("x", function(d){ return d.x0 + 2})    
+    //         .attr("y", function(d){ return d.y1 - 4})    // positioning text at bottom of a rectangle
+    //         .text(function(d){ 
+    //                 return ((d.x1 - d.x0) > 32) ? d.data.child : "";
+    //             })
+    //         .attr("font-size", "12px")
+    //         // .attr("font-weight", "bold")
+    //         .attr("fill", "white")
 
     // creating tool tip
     // http://bl.ocks.org/caged/6476579
@@ -89,3 +91,54 @@ function renderTreeMap(data, location){
 }//end of renderTreeMap
 
 
+function updateTreeMap(data, location){
+
+        var svgWidth = 737;
+        var svgHeight = 463;
+        
+        var margin = {
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10
+        };
+        
+        var width = svgWidth - margin.left - margin.right;
+        var height = svgHeight - margin.top - margin.bottom;    
+
+        //   https://observablehq.com/@d3/d3-stratify
+        var root = d3.stratify()
+                        .id(function(d) { return d.child; })   // Name of the entity (column name is name in csv)
+                        .parentId(function(d) { return d.parent; })   // Name of the parent (column name is parent in csv)
+                        (data);
+
+        root.sum(function(d) { return +d.value }) 
+
+        d3.treemap()
+                .size([width, height])
+                .padding(4)
+                (root)    
+
+        console.log(root)
+
+        // use this information to add rectangles:
+        let rects = d3.select("#accidentsTree")
+                        .select("svg")
+                        .selectAll("rect")
+                        .data(root.leaves());
+
+            rects.enter()                    
+                 .append("rect");
+
+            rects.transition()
+                .duration(1500)
+                .attr('x', function (d) { return d.x0; })
+                .attr('y', function (d) { return d.y0; })
+                .attr('width', function (d) { return d.x1 - d.x0; })
+                .attr('height', function (d) { return d.y1 - d.y0; })
+                .style("stroke", "black")
+                .style("fill", "#69b3a2")
+                
+            
+            rects.exit().remove();
+}// end of updateTreeMap

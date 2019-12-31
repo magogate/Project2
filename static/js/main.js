@@ -40,7 +40,8 @@ cmbLocation.on("change", function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
 
-    rendertAccidentsByLocation(filteredData, location)
+    let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
+    updateTreeMap(acciCntByLoc, location);    
 })//end of cmbLocation
 
 cmbFilters.on("change", function(d){
@@ -49,9 +50,11 @@ cmbFilters.on("change", function(d){
 
   filteredData = accidentData.filter(function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
-                    })
+                    })  
   
-  rendertAccidentsByLocation(filteredData, location)
+  let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
+  renderTreeMap(acciCntByLoc, location);
+
 })//end of cmbFilter
 
 cmbTime.on("change", function(d){
@@ -76,7 +79,9 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     filteredData = accidentData.filter(function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
-    rendertAccidentsByLocation(filteredData, location)
+    let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
+    renderTreeMap(acciCntByLoc, location);
+
     let yearWiseAccCnt = getYearWiseAccCount(accidentData);
     rederPieChart(yearWiseAccCnt);
 })
@@ -95,7 +100,9 @@ function rendertAccidentsByLocation(data, location){
     // compareValues function is defined at the top
     // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
     acciCntByLoc.sort(compareValues('value', 'desc'))
-    renderTreeMap(acciCntByLoc, location)
+
+    return acciCntByLoc;
+    // renderTreeMap(acciCntByLoc, location)
 }//end of getAccidentsByCities
 
 // http://learnjsdata.com/group_data.html
