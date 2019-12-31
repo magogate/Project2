@@ -57,7 +57,11 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     // console.log(myData);    
     accidentData = myData;
     let location = "City"
-    rendertAccidentsByLocation(accidentData, location)
+    let colName = d3.select("#selectFilters").property("value");
+    filteredData = accidentData.filter(function(d){
+                      return colName == "All" ? true : d[colName] == "TRUE";
+                    })
+    rendertAccidentsByLocation(filteredData, location)
 })
 
 function rendertAccidentsByLocation(data, location){
