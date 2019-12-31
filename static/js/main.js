@@ -30,6 +30,7 @@ function compareValues(key, order = 'asc') {
 
 let cmbLocation = d3.select("#selectLocation");
 let cmbFilters = d3.select("#selectFilters");
+let cmbTime = d3.select("#selectTime");
 
 cmbLocation.on("change", function(d){    
     let location = this.value;
@@ -40,7 +41,7 @@ cmbLocation.on("change", function(d){
                     })
 
     rendertAccidentsByLocation(filteredData, location)
-})
+})//end of cmbLocation
 
 cmbFilters.on("change", function(d){
   let colName = this.value;
@@ -51,7 +52,21 @@ cmbFilters.on("change", function(d){
                     })
   
   rendertAccidentsByLocation(filteredData, location)
-})
+})//end of cmbFilter
+
+cmbTime.on("change", function(d){
+  let time = this.value;
+
+  console.log(time)
+
+  filteredData = accidentData.filter(function(d){
+                    return time == "All" ? true : d["Sunrise_Sunset"] == time;
+                  })
+  
+  let yearWiseAccCnt = getYearWiseAccCount(filteredData);
+  updatePieChart(yearWiseAccCnt);
+
+})//end of cmbTime
 
 d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     // console.log(myData);    
@@ -62,7 +77,13 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
     rendertAccidentsByLocation(filteredData, location)
+    let yearWiseAccCnt = getYearWiseAccCount(accidentData);
+    rederPieChart(yearWiseAccCnt);
 })
+
+function getYearWiseAccCount(data){
+   return aggregateData(data, "StartYear");      
+}
 
 function rendertAccidentsByLocation(data, location){
     let acciCntByLoc = aggregateData(data, location);

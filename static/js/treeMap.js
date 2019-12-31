@@ -1,19 +1,20 @@
-var svgWidth = 737;
-var svgHeight = 463;
-
-var margin = {
-  top: 10,
-  right: 10,
-  bottom: 10,
-  left: 10
-};
-
-var width = svgWidth - margin.left - margin.right;
-var height = svgHeight - margin.top - margin.bottom;
 
 // following example is copied from 
 // https://www.d3-graph-gallery.com/graph/treemap_basic.html
 function renderTreeMap(data, location){
+
+    var svgWidth = 737;
+    var svgHeight = 463;
+    
+    var margin = {
+      top: 10,
+      right: 10,
+      bottom: 10,
+      left: 10
+    };
+    
+    var width = svgWidth - margin.left - margin.right;
+    var height = svgHeight - margin.top - margin.bottom;    
 
     d3.select("#accidentsTree").selectAll("svg").remove();
 
@@ -73,7 +74,6 @@ function renderTreeMap(data, location){
                     .attr('class', 'd3-tip')
                     .offset([-10, 0])                   
                     .html(function(d) {                      
-                        console.log(d)
                         return "<table class='toolTipTable'><tr class='toolTipData'><td><strong>" + location + "</strong> </td><td><span style='color:red'>" + d.id + "</span></td></tr><tr class='toolTipData'><td><strong>Accidents</strong> </td><td><span style='color:red'>" + d.value + " (" + d.data.percentage +"%)</span></td></tr></table>"; 
                     });
      // Step 2: Create the tooltip in svg.

@@ -18,6 +18,23 @@
     line-height: 1.875rem ;
 }
 
+.sectionHeaders{
+    width: 70%;
+    margin: 0 auto 0 auto;
+    padding: 2%
+}
+
+.timeSectionHeaders{
+    width: 55%;
+    margin: 0 auto 0 auto;
+    padding-bottom: 3%;    
+}
+
+.timeDiv{
+    text-align: center;
+    padding: 2%;
+}
+
 /* treemap section */
 .locations{
     height: 600px;
@@ -121,4 +138,9 @@ h6{
     margin: -1px 0 0 0;
     top: 100%;
     left: 0;
+  }
+
+  #chart-area svg {
+    margin:auto;
+    display:inherit;
   }
