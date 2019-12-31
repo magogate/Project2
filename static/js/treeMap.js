@@ -119,7 +119,7 @@ function updateTreeMap(data, location){
                 .padding(4)
                 (root)    
 
-        console.log(root)
+        // console.log(root)
 
         // use this information to add rectangles:
         let rects = d3.select("#accidentsTree")
@@ -130,12 +130,13 @@ function updateTreeMap(data, location){
             rects.enter()                    
                  .append("rect");
 
-            rects.transition()
-                .duration(1500)
+            rects
                 .attr('x', function (d) { return d.x0; })
-                .attr('y', function (d) { return d.y0; })
+                .attr('y', function (d) { return d.y0; })                
                 .attr('width', function (d) { return d.x1 - d.x0; })
                 .attr('height', function (d) { return d.y1 - d.y0; })
+                // .transition()
+                // .duration(1000)
                 .style("stroke", "black")
                 .style("fill", "#69b3a2")
                 

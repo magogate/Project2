@@ -41,7 +41,7 @@ cmbLocation.on("change", function(d){
                     })
 
     let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
-    updateTreeMap(acciCntByLoc, location);    
+    renderTreeMap(acciCntByLoc, location);    
 })//end of cmbLocation
 
 cmbFilters.on("change", function(d){
