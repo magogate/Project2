@@ -74,6 +74,14 @@ h4{
     padding-bottom: 44%;
 }
 
+.bar {
+    fill: steelblue;
+  }
+
+.bar:hover {
+    fill: brown;
+}
+
 .weather{
     height: 600px;
     background-color: #f1f8fd;        

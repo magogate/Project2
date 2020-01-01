@@ -79,11 +79,28 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     rendertAccidentsByLocation(filteredData, location)
     let yearWiseAccCnt = getYearWiseAccCount(accidentData);
     rederPieChart(yearWiseAccCnt);
+
+    let monthWiseAccCount = getMonthWiseAccCount(accidentData)
+    
+    let monthWiseAccCount_Revised = monthWiseAccCount.map(function(d){
+                                  return {
+                                          month: d.child,
+                                          accCount: d.value,
+                                          percentage: d.percentage
+                                  }
+                              })
+
+    barChart(monthWiseAccCount_Revised, location)
 })
 
 function getYearWiseAccCount(data){
    return aggregateData(data, "StartYear");      
 }
+
+function getMonthWiseAccCount(data){
+  return aggregateData(data, "StartMonth");      
+}
+
 
 function rendertAccidentsByLocation(data, location){
     let acciCntByLoc = aggregateData(data, location);
