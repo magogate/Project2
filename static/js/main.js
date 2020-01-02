@@ -112,6 +112,19 @@ cmbTime.on("change", function(d){
   let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData)
   updatePieChart(sunSetWiseAccCnt);
 
+  let monthWiseAccCount = getMonthWiseAccCount(filteredData)
+    
+  let monthWiseAccCount_Revised = monthWiseAccCount.map(function(d){
+                                return {
+                                        month: Number(d.child),
+                                        accCount: d.value,
+                                        percentage: d.percentage
+                                }
+                            })
+                            .sort(compareValues('month', 'asc'));
+
+  barChart(monthWiseAccCount_Revised, "");
+
 })//end of cmbTime
 
 d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
@@ -126,10 +139,7 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     renderTreeMap(acciCntByLoc, location);
 
     // let yearWiseAccCnt = getYearWiseAccCount(accidentData);
-    let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData)
-    console.log("this is sunset...")
-    console.log(sunSetWiseAccCnt)
-    // .sort(compareValues('month', 'asc'));                                                                 
+    let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData)    
     rederPieChart(sunSetWiseAccCnt);
     
     sunSetWiseAccCnt.forEach(function(d){
@@ -137,8 +147,6 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     });    
     
     tabulate(_dashboard.accTime, 'accTimePie', ["Time", "Color"], 'Time')
-
-
 
     let monthWiseAccCount = getMonthWiseAccCount(accidentData)
     
@@ -151,7 +159,7 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
                               })
                               .sort(compareValues('month', 'asc'));
 
-    barChart(monthWiseAccCount_Revised, location);
+    barChart(monthWiseAccCount_Revised, "");
 })
 
 function getSunSetWiseAccCount(data){
