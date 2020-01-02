@@ -2,7 +2,50 @@
 
 // https://observablehq.com/@d3/d3-stratify
 
+/* Bar Chart Variable Declaration */
+var _dashboard = {};
+
+_dashboard.accTime = [];
+
+_dashboard.segColor = function(c, cnt, dataname) {
+	var colors = {};    
+  if(dataname == "Time"){    
+    colors[c] = Colors.random(cnt);    
+  }
+  return colors[c];
+}//end of segColor
+
+var Colors = {};
+Colors.names = {    
+    green1: '#111d5e',
+    skyblue1: '#b21f66',
+    gray1: '#fe346e',
+    gray2: '#ffbd69',
+    blue: '#4DD92B',
+    orange2: '#E7492E',
+    green2: '#4526EF',
+    pink: '#F17CB0',
+    brown: '#B2912F',
+    purple2: '#B276B2',
+    yellow: '#DECF3F',
+    red: '#F15854'
+};
+
+Colors.random = function (i) {	
+  var result;
+  var count = 0;
+  for (var prop in this.names) {
+      if (count <= i)
+          result = this.names[prop];
+      count += 1;      
+  }
+  return result;
+};
+
+
 let accidentData;
+
+
 
 // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 function compareValues(key, order = 'asc') {
@@ -59,15 +102,15 @@ cmbFilters.on("change", function(d){
 
 cmbTime.on("change", function(d){
   let time = this.value;
-
   console.log(time)
 
   filteredData = accidentData.filter(function(d){
-                    return time == "All" ? true : d["Sunrise_Sunset"] == time;
-                  })
-  
-  let yearWiseAccCnt = getYearWiseAccCount(filteredData);
-  updatePieChart(yearWiseAccCnt);
+                    return time == "All" ? true : d["StartYear"] == time;
+                  })  
+
+  // let yearWiseAccCnt = getYearWiseAccCount(filteredData);
+  let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData)
+  updatePieChart(sunSetWiseAccCnt);
 
 })//end of cmbTime
 
@@ -82,24 +125,58 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
     renderTreeMap(acciCntByLoc, location);
 
-    let yearWiseAccCnt = getYearWiseAccCount(accidentData);
-    rederPieChart(yearWiseAccCnt);
+    // let yearWiseAccCnt = getYearWiseAccCount(accidentData);
+    let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData)
+    console.log("this is sunset...")
+    console.log(sunSetWiseAccCnt)
+    // .sort(compareValues('month', 'asc'));                                                                 
+    rederPieChart(sunSetWiseAccCnt);
+    
+    sunSetWiseAccCnt.forEach(function(d){
+        _dashboard.accTime.push(d);
+    });    
+    
+    tabulate(_dashboard.accTime, 'accTimePie', ["Time", "Color"], 'Time')
+
+
 
     let monthWiseAccCount = getMonthWiseAccCount(accidentData)
     
     let monthWiseAccCount_Revised = monthWiseAccCount.map(function(d){
                                   return {
-                                          month: d.child,
+                                          month: Number(d.child),
                                           accCount: d.value,
                                           percentage: d.percentage
                                   }
                               })
+                              .sort(compareValues('month', 'asc'));
 
-    barChart(monthWiseAccCount_Revised, location)
+    barChart(monthWiseAccCount_Revised, location);
 })
 
+function getSunSetWiseAccCount(data){
+  return aggregateData(
+                       data.filter(function(d){
+                             return d.StartYear == 2017 || d.StartYear == 2018
+                           })
+                       , "Sunrise_Sunset"
+                     ).map(function(d){
+                       return {
+                         time: d.child,
+                         accCounts: d.value,
+                         percentage: d.percentage
+                       }
+                     })
+                     .sort(compareValues('time', 'desc'));
+}
+
 function getYearWiseAccCount(data){
-   return aggregateData(data, "StartYear");      
+   return aggregateData(
+                        data.filter(function(d){
+                              return d.StartYear == 2017 || d.StartYear == 2018
+                            })
+                        , "StartYear"
+                      )                                      
 }
 
 function getMonthWiseAccCount(data){

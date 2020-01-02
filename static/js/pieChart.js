@@ -1,6 +1,7 @@
 // https://bl.ocks.org/mbostock/1346410
 // https://bl.ocks.org/adamjanes/5e53cfa2ef3d3f05828020315a3ba18c/22619fa86de2045b6eeb4060e747c5076569ec47
 
+// var pieChartColor = ["#111d5e","#b21f66","#fe346e","#ffbd69"]
             
 function rederPieChart(data){
 
@@ -25,14 +26,37 @@ function rederPieChart(data){
 
     let radius = Math.min(width, height) / 2;
 
-    let color = d3.scaleOrdinal(["#111d5e","#b21f66","#fe346e","#ffbd69"]);
+    //Mouseover tip
+    var tip = d3.tip()
+                .attr('class', 'd3-tip-pie')
+                .offset([80, 40])
+                .html(function (d) {
+                    var str = "" + d.data.accCounts + " (" + d.data.percentage + "%)";
+                        str += "<br><strong> Accident Year: " + d.data.time + "</strong>";
+                    return str;
+                });
+
+
+    let dataname = "Time"
+    let pieChartColor = []
+    let cnt = 0;
+    data.map(function (d) {    
+        let myJson = {}    
+          // myJson[dataname] = d + "~" + desc[cnt];            
+          myJson[dataname] = d.child;        
+          myJson["Color"] = _dashboard.segColor(d.time, cnt, dataname);      
+          pieChartColor.push(myJson.Color);
+          cnt++;
+      })  
+
+    let color = d3.scaleOrdinal(pieChartColor);
 
     let arc = d3.arc()
-                    .innerRadius(radius - 100)
+                    .innerRadius(radius - 95)
                     .outerRadius(radius - 50);    
 
     const pie = d3.pie()
-                    .value(d => d.value)
+                    .value(d => d.accCounts)
                     .sort(null);
 
     function arcTween(a) {
@@ -49,7 +73,8 @@ function rederPieChart(data){
                         .attr("width", width)
                         .attr("height", height)
                     .append("g")
-                        .attr("transform", `translate(${width / 2}, ${height / 2})`);
+                        .attr("transform", `translate(${width / 2.5}, ${height / 2})`);
+    svg.call(tip);            
 
     function update() {
                 // Join new data                
@@ -65,7 +90,9 @@ function rederPieChart(data){
                         .attr("d", arc)
                         .attr("stroke", "white")
                         .attr("stroke-width", "1px")
-                        .each(function(d) { this._current = d; });
+                        .each(function(d) { this._current = d; })
+                        .on('mouseover', tip.show)
+                        .on('mouseout', tip.hide);
     }//end of update            
 
     update()
@@ -73,8 +100,6 @@ function rederPieChart(data){
 
 //to update data.. created a seperate function.
 function updatePieChart(data){
-
-    console.log(data)
 
     let svgWidth = 350;
     let svgHeight = 350;
@@ -91,14 +116,38 @@ function updatePieChart(data){
 
     let radius = Math.min(width, height) / 2;
 
-    let color = d3.scaleOrdinal(["#111d5e","#b21f66","#fe346e","#ffbd69"]);
+    //Mouseover tip
+    var tip = d3.tip()
+                .attr('class', 'd3-tip')
+                .offset([80, 40])
+                .html(function (d) {
+                    var str = "" + d.data.accCounts + " (" + d.data.percentage + "%)";
+                    str += "<br><strong>Time: " + d.data.time + "</strong>";
+                    return str;
+                });
+
+    let pieChartColor = []
+    let cnt = 0;
+    let dataname = "Time"
+    data.map(function (d) {    
+        let myJson = {}    
+          // myJson[dataname] = d + "~" + desc[cnt];  
+          console.log("Inside update of pie...")
+          console.log(d.child)
+          myJson[dataname] = d.child;        
+          myJson["Color"] = _dashboard.segColor(d.time, cnt, dataname);      
+          pieChartColor.push(myJson.Color);
+          cnt++;
+      })  
+
+    let color = d3.scaleOrdinal(pieChartColor);
 
     let arc = d3.arc()
-                    .innerRadius(radius - 100)
+                    .innerRadius(radius - 95)
                     .outerRadius(radius - 50);
 
     const pie = d3.pie()
-                    .value(d => d.value)
+                    .value(d => d.accCounts)
                     .sort(null);
 
     function arcTween(a) {
@@ -107,9 +156,12 @@ function updatePieChart(data){
                     return (t) => arc(i(t));
                 }
 
-    const path = d3.select("#accTimePie")
-                    .selectAll("svg")
-                    .selectAll("path")
+    const svg = d3.select("#accTimePie")
+                    .selectAll("svg");
+    
+    svg.call(tip);          
+                    
+    const path = svg.selectAll("path")
                     .data(pie(data));
 
     // Update existing arcs

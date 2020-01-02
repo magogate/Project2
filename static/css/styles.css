@@ -32,7 +32,10 @@
 
 .timeDiv{
     text-align: center;
-    padding: 2%;
+    padding: 2%;    
+}
+#accTimePie{
+    padding-right: 3%;
 }
 
 /* treemap section */
@@ -127,9 +130,18 @@ h6{
     color: #fff;
     border-radius: 5px;
   }
-  
-  /* Creates a small triangle extender for the tooltip */
-  .d3-tip:after {
+
+.d3-tip-pie{
+    line-height: 1;
+    font-weight: bold;
+    padding: 12px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    border-radius: 5px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
     box-sizing: border-box;
     display: inline;
     font-size: 10px;
@@ -139,16 +151,23 @@ h6{
     content: "\25BC";
     position: absolute;
     text-align: center;
-  }
-  
-  /* Style northward tooltips differently */
-  .d3-tip.n:after {
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
     margin: -1px 0 0 0;
     top: 100%;
     left: 0;
-  }
+}
 
-  #chart-area svg {
+#chart-area svg {
     margin:auto;
     display:inherit;
-  }
+}
+
+/*
+This is for legend
+*/
+.tableLegend {
+    font-size: .7em !important;
+}
