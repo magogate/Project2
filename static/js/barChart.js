@@ -16,7 +16,7 @@ function barChart(data, location){
         top: 20,
         right: 20,
         bottom: 30,
-        left: 50
+        left: 60
     };
     
     width = +svg.attr("width") - margin.left - margin.right;
@@ -43,10 +43,20 @@ function barChart(data, location){
                     return d.accCount;
                     })
                 ]);
-
+                
     g.append("g")
         .attr("transform", "translate(0," + height + ")")
         .call(d3.axisBottom(x))
+        .append("text")
+        .attr("fill", "#fff")
+        // .attr("transform", "rotate(-90)")
+        .attr("x", 6)
+        .attr("dx", "12em")
+        .attr("text-anchor", "end")
+        .attr("transform", "translate(" + width/3.5 + ",29)")
+        .attr("font-weight", "bold")
+        .attr("font-size", "14px")
+        .text("Months");
 
     g.append("g")
         .call(d3.axisLeft(y))
@@ -54,9 +64,12 @@ function barChart(data, location){
         .attr("fill", "#fff")
         .attr("transform", "rotate(-90)")
         .attr("y", 6)
-        .attr("dy", "-1.0em")
+        .attr("dy", "-3.7em")
         .attr("text-anchor", "end")
-        // .text("Accidents");
+        .attr("transform", "translate(0," + height/2.5 + ") rotate(-90)")
+        .attr("font-weight", "bold")
+        .attr("font-size", "14px")
+        .text("Accidents");
     
     g.selectAll("#barChart")
         .data(data)
