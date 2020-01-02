@@ -56,19 +56,19 @@ function renderTreeMap(data, location){
                     .style("fill", "#69b3a2");
 
     // and to add the text labels
-    // svg
-    //     .selectAll("text")
-    //     .data(root.leaves())
-    //     .enter()
-    //     .append("text")
-    //         .attr("x", function(d){ return d.x0 + 2})    
-    //         .attr("y", function(d){ return d.y1 - 4})    // positioning text at bottom of a rectangle
-    //         .text(function(d){ 
-    //                 return ((d.x1 - d.x0) > 32) ? d.data.child : "";
-    //             })
-    //         .attr("font-size", "12px")
-    //         // .attr("font-weight", "bold")
-    //         .attr("fill", "white")
+    svg
+        .selectAll("text")
+        .data(root.leaves())
+        .enter()
+        .append("text")
+            .attr("x", function(d){ return d.x0 + 2})    
+            .attr("y", function(d){ return d.y1 - 4})    // positioning text at bottom of a rectangle
+            .text(function(d){ 
+                    return ((d.x1 - d.x0) > 32) ? d.data.child : "";
+                })
+            .attr("font-size", "12px")
+            // .attr("font-weight", "bold")
+            .attr("fill", "white")
 
     // creating tool tip
     // http://bl.ocks.org/caged/6476579
