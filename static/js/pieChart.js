@@ -96,6 +96,37 @@ function rederPieChart(data){
     }//end of update            
 
     update()
+
+    /* drop shadow start */
+
+    var defs = svg.append("defs");
+
+    // 	black drop shadow
+    var filter = defs.append("filter")
+                    .attr("id", "drop-shadow");
+
+        filter.append("feGaussianBlur")
+                .attr("in", "SourceAlpha")
+                .attr("stdDeviation", 2)
+                .attr("result", "blur");
+    
+        filter.append("feOffset")
+                .attr("in", "blur")
+                .attr("dx", 4)
+                .attr("dy", 4)
+                .attr("result", "offsetBlur");
+
+    var feMerge = filter.append("feMerge");
+
+            feMerge
+                .append("feMergeNode")
+                .attr("in", "offsetBlur");
+
+            feMerge
+                .append("feMergeNode")
+                .attr("in", "SourceGraphic");
+
+     /* drop shadow end*/
 }
 
 //to update data.. created a seperate function.

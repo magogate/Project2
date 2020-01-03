@@ -16,6 +16,9 @@ function renderTreeMap(data, location){
     var width = svgWidth - margin.left - margin.right;
     var height = svgHeight - margin.top - margin.bottom;    
 
+    var color = d3.scaleOrdinal(d3.schemeCategory10)
+    
+
     d3.select("#accidentsTree").selectAll("svg").remove();
 
     var svg = d3
@@ -47,13 +50,22 @@ function renderTreeMap(data, location){
                 .selectAll("rect")
                 .data(root.leaves())
                 .enter()
-                .append("rect")
+                .append("rect")                    
                     .attr('x', function (d) { return d.x0; })
-                    .attr('y', function (d) { return d.y0; })
+                    .attr('y', function (d) { return d.y0; });
+                // https://stackoverflow.com/questions/22645162/d3-when-i-add-a-transition-my-mouseover-stops-working-why
+                rects.transition()
+                    // https://bl.ocks.org/d3noob/1ea51d03775b9650e8dfd03474e202fe
+                    .ease(d3.easeBounce)
+                    .duration(1000)  
                     .attr('width', function (d) { return d.x1 - d.x0; })
                     .attr('height', function (d) { return d.y1 - d.y0; })
                     .style("stroke", "black")
-                    .style("fill", "#69b3a2");
+                    // .style("fill", "#69b3a2");
+                    // https://observablehq.com/@d3/stretched-treemap
+                    .attr("fill", function(d) {
+                                                return color(d.data.child); 
+                                            });
 
     // and to add the text labels
     svg
@@ -70,6 +82,11 @@ function renderTreeMap(data, location){
             // .attr("font-weight", "bold")
             .attr("fill", "white")
 
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+    
     // creating tool tip
     // http://bl.ocks.org/caged/6476579
     var toolTip = d3.tip()                    
@@ -79,14 +96,23 @@ function renderTreeMap(data, location){
                         return "<table class='toolTipTable'><tr class='toolTipData'><td><strong>" + location + "</strong> </td><td><span style='color:red'>" + d.id + "</span></td></tr><tr class='toolTipData'><td><strong>Accidents</strong> </td><td><span style='color:red'>" + d.value + " (" + d.data.percentage +"%)</span></td></tr></table>"; 
                     });
      // Step 2: Create the tooltip in svg.
-    svg.call(toolTip);
+    svg.call(toolTip);    
     
     rects.on("mouseover", function(d){
-               toolTip.show(d, this)
-            })// onmouseout event
-         .on("mouseout", function(data, index) {
-                toolTip.hide(data);
-            });
+            toolTip.show(d, this)
+         })// onmouseout event
+        .on("mouseout", function(data, index) {
+             toolTip.hide(data);
+         });
+
+    // sleep(2000).then(() => {
+    //     rects.on("mouseover", function(d){
+    //         toolTip.show(d, this)
+    //      })// onmouseout event
+    //   .on("mouseout", function(data, index) {
+    //          toolTip.hide(data);
+    //      });
+    // });
 
 }//end of renderTreeMap
 
@@ -124,22 +150,43 @@ function updateTreeMap(data, location){
         // use this information to add rectangles:
         let rects = d3.select("#accidentsTree")
                         .select("svg")
-                        .selectAll("rect")
-                        .data(root.leaves());
+                        .selectAll("rect");
+                        ;
 
-            rects.enter()                    
+            rects.exit().remove();
+
+            rects.data(root.leaves())
+                 .enter()                    
                  .append("rect");
 
             rects
+                .merge(rects)
                 .attr('x', function (d) { return d.x0; })
                 .attr('y', function (d) { return d.y0; })                
+                .transition()
+                .duration(1000)
                 .attr('width', function (d) { return d.x1 - d.x0; })
-                .attr('height', function (d) { return d.y1 - d.y0; })
-                // .transition()
-                // .duration(1000)
+                .attr('height', function (d) { return d.y1 - d.y0; })                
                 .style("stroke", "black")
                 .style("fill", "#69b3a2")
-                
             
-            rects.exit().remove();
+            // and to add the text labels
+    let text = svg
+            .selectAll("text");
+
+        text.exit().remove();
+
+        text.data(root.leaves())
+            .enter()
+            .append("text")
+            .merge(text)
+            .attr("x", function(d){ return d.x0 + 2})    
+            .attr("y", function(d){ return d.y1 - 4})    // positioning text at bottom of a rectangle
+            .text(function(d){ 
+                    return ((d.x1 - d.x0) > 32) ? d.data.child : "";
+                })
+            .attr("font-size", "12px")
+            // .attr("font-weight", "bold")
+            .attr("fill", "white")
+            
 }// end of updateTreeMap

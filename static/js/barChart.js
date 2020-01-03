@@ -141,7 +141,8 @@ function updateBarChart(data, location){
         .attr("class", "bar")
         .merge(rect)
         .transition()
-        .duration(500)
+        .ease(d3.easeBounce)
+        .duration(1000)
         .attr("x", function (d) {
             return x(d.month);
         })
