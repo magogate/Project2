@@ -123,7 +123,7 @@ cmbTime.on("change", function(d){
                             })
                             .sort(compareValues('month', 'asc'));
 
-  barChart(monthWiseAccCount_Revised, "");
+  updateBarChart(monthWiseAccCount_Revised, "");
 
 })//end of cmbTime
 
@@ -159,7 +159,7 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
                               })
                               .sort(compareValues('month', 'asc'));
 
-    barChart(monthWiseAccCount_Revised, "");
+    renderBarChart(monthWiseAccCount_Revised, "");
 })
 
 function getSunSetWiseAccCount(data){
