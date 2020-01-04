@@ -4,6 +4,7 @@
 
 /* Bar Chart Variable Declaration */
 var _dashboard = {};
+var filterList = { month: '', day: ''};
 
 _dashboard.accTime = [];
 
@@ -123,11 +124,25 @@ cmbTime.on("change", function(d){
                             })
                             .sort(compareValues('month', 'asc'));
 
-  updateBarChart(monthWiseAccCount_Revised, "");
+  updateBarChart(monthWiseAccCount_Revised, "barChartMonth", "month", "accCount", "");  
+
+  let dayWiseAccCount = getDayWiseAccCount(accidentData);
+
+  let dayWiseAccCount_Revised = dayWiseAccCount.map(function(d){
+                                                      return {
+                                                              day: Number(d.child),
+                                                              accCount: d.value,
+                                                              percentage: d.percentage
+                                                      }
+                                                  })
+                                                  .sort(compareValues('day', 'asc'));
+
+  updateBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
+
 
 })//end of cmbTime
 
-d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
+d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     // console.log(myData);    
     accidentData = myData;
     let location = "City"
@@ -139,7 +154,7 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
     renderTreeMap(acciCntByLoc, location);
 
     // let yearWiseAccCnt = getYearWiseAccCount(accidentData);
-    let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData)    
+    let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData);
     rederPieChart(sunSetWiseAccCnt);
     
     sunSetWiseAccCnt.forEach(function(d){
@@ -159,8 +174,24 @@ d3.csv("data/GA_Accidents_May19_Revised.csv").then(function(myData, err) {
                               })
                               .sort(compareValues('month', 'asc'));
 
-    renderBarChart(monthWiseAccCount_Revised, "");
-})
+    renderBarChart(monthWiseAccCount_Revised, "barChartMonth", "month", "accCount", "");  
+
+    let dayWiseAccCount = getDayWiseAccCount(accidentData);
+    console.log(dayWiseAccCount)
+
+    let dayWiseAccCount_Revised = dayWiseAccCount.map(function(d){
+                                          return {
+                                                  day: Number(d.child),
+                                                  accCount: d.value,
+                                                  percentage: d.percentage
+                                          }
+                                      })
+                                      .sort(compareValues('day', 'asc'));
+
+    renderBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
+
+    $('#barChartDay').hide();
+})//end of d3.read_csv
 
 function getSunSetWiseAccCount(data){
   return aggregateData(
@@ -176,7 +207,7 @@ function getSunSetWiseAccCount(data){
                        }
                      })
                      .sort(compareValues('time', 'desc'));
-}
+}//end of getSunSetWiseAccCount
 
 function getYearWiseAccCount(data){
    return aggregateData(
@@ -185,12 +216,21 @@ function getYearWiseAccCount(data){
                             })
                         , "StartYear"
                       )                                      
-}
+}//end of getYearWiseAccCount
 
 function getMonthWiseAccCount(data){
   return aggregateData(data, "StartMonth");      
-}
+}//end of getMonthWiseAccCount
 
+function getDayWiseAccCount(data){
+  return aggregateData(data.filter(function(d){
+    // time == "All" ? true : d["StartYear"] == time;
+    let time = d3.select("#selectTime").property("value");
+    return (filterList.month == "") ? true 
+                                    : (time == "All") ? d.StartMonth == filterList.month 
+                                    : (d["StartYear"] == time && d.StartMonth == filterList.month);
+  }), "StartDay");
+}//end of getDayWiseAccCount
 
 function rendertAccidentsByLocation(data, location){
     let acciCntByLoc = aggregateData(data, location);
@@ -235,4 +275,45 @@ function aggregateData(data, colKey){
                         });
 
     return aggData;
+}//end of aggregateDate
+
+function filterData(){
+
+  var FilterStr = "<div class='divFilter'><img class='closeFilter' src='static/img/close2.png' id='#Filter'>";            
+  var CloseStr = "</div>";
+  var Title = filterList.month == "" ? "" : FilterStr.replace('#Filter', "month" + filterList.month)  + "Month - " + filterList.month + CloseStr;
+  // Title += filterList.day == "" ? "" : FilterStr.replace('#Filter', "day" + filterList.ST) + "Swimming & Trampoline - " + filterListDesc.ST  + CloseStr;
+
+  let dayWiseAccCount = getDayWiseAccCount(accidentData);
+
+  let dayWiseAccCount_Revised = dayWiseAccCount.map(function(d){
+                                                      return {
+                                                              day: Number(d.child),
+                                                              accCount: d.value,
+                                                              percentage: d.percentage
+                                                      }
+                                                  })
+                                                  .sort(compareValues('day', 'asc'));
+console.log(dayWiseAccCount_Revised)
+  updateBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
+
+    console.log(Title)
+    $('#divTitle').empty().html(Title);
+
+    if (filterList.month != '') {              
+        $('#barChartMonth').hide(2000);
+        $('#barChartDay').show(2000);
+    }else{
+        $('#barChartMonth').show(2000);
+        $('#barChartDay').hide(2000);
+    }
+  
+    $(".closeFilter").on("click", function (event) {
+        var a = this.id;        
+        console.log("Inside close filter..")
+        $.each(filterList, function (key, value) {        	
+          if (key + value == a) { filterList[key] = ''; }
+        });
+        filterData(this.id);
+    });
 }

@@ -88,7 +88,7 @@
       </section>
 
       <section class="time">
-        <container class="container">
+        <container class="container">          
             <div class="row">
                 <div class="col col-lg-4">      
                     <div class="timeDiv">
@@ -106,13 +106,17 @@
                     </div>                  
                 </div>     
                 <div class="col col-lg-8">
-                    <div id="barChart">
-
+                  <div id="divTitle" style="height: 50px;">
+                  </div>
+                    <div id="barChartMonth">
+                      
+                    </div>
+                    <div id="barChartDay">
+                      
                     </div>
                 </div>
             </div>
-        </container>
-      </section>
+        </container>      </section>
 
       <section class="weather">
         <container class="container">
@@ -149,11 +153,12 @@
     <!-- https://stackoverflow.com/questions/24989128/why-is-my-d3-tip-not-working -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-tip/0.7.1/d3-tip.min.js"></script>
     <!-- JS Files for Analysis -->
-    <script type="text/javascript" src="static/js/main.js"></script>
+    
     <script type="text/javascript" src="static/js/barChart.js"></script>
     <script type="text/javascript" src="static/js/treeMap.js"></script>
     <script type="text/javascript" src="static/js/pieChart.js"></script>
     <script type="text/javascript" src="static/js/chartLegend.js"></script>
+    <script type="text/javascript" src="static/js/main.js"></script>
     
   </body>
 </html>

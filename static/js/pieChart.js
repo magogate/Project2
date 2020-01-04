@@ -162,9 +162,6 @@ function updatePieChart(data){
     let dataname = "Time"
     data.map(function (d) {    
         let myJson = {}    
-          // myJson[dataname] = d + "~" + desc[cnt];  
-          console.log("Inside update of pie...")
-          console.log(d.child)
           myJson[dataname] = d.child;        
           myJson["Color"] = _dashboard.segColor(d.time, cnt, dataname);      
           pieChartColor.push(myJson.Color);

@@ -1,5 +1,5 @@
 // https://bl.ocks.org/caravinden/d04238c4c9770020ff6867ee92c7dac1
-function renderBarChart(data, location){
+function renderBarChart(data, id, xAxisCol, yHeightCol, location){
 
     d3.select("#barChart").selectAll("svg").remove();
 
@@ -7,7 +7,7 @@ function renderBarChart(data, location){
     var svgWidth = 737;
     var svgHeight = 463;
 
-    const svg = d3.select("#barChart")
+    const svg = d3.select("#" + id)
                     .append("svg")
                         .attr("width", svgWidth)
                         .attr("height", svgHeight);
@@ -36,11 +36,11 @@ function renderBarChart(data, location){
                 .rangeRound([height, 0]);
 
     x.domain(data.map(function (d) {
-                return d.month;
+                return d[xAxisCol];
             }));
 
     y.domain([0, d3.max(data, function (d) {
-                    return d.accCount;
+                    return d[yHeightCol];
                     })
                 ]);
                 
@@ -73,27 +73,33 @@ function renderBarChart(data, location){
         .attr("font-size", "14px")
         .text("Accidents");
     
-    g.selectAll("#barChart")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", function (d) {
-            return x(d.month);
-        })
-        .attr("y", function (d) {
-            return y(d.accCount);
-        })
-        .attr("width", x.bandwidth())
-        .attr("height", function (d) {            
-            return height - y(d.accCount);
-        });
+    const rect = g.selectAll("#" + id)
+                    .data(data)
+                    .enter()
+                    .append("rect");
+
+                rect.attr("class", "bar")
+                    .attr("x", function (d) {
+                        return x(d[xAxisCol]);
+                    })
+                    .attr("y", function (d) {
+                        return y(d[yHeightCol]);
+                    })
+                    .attr("width", x.bandwidth())
+                    .attr("height", function (d) {            
+                        return height - y(d[yHeightCol]);
+                    })
+                    .on("click", function(d){
+                        console.log(d)
+                        filterList[xAxisCol] = d.month;
+                        filterData();
+                    });
 
 }//end of barTreeMap
 
 
 // https://bl.ocks.org/caravinden/d04238c4c9770020ff6867ee92c7dac1
-function updateBarChart(data, location){
+function updateBarChart(data, id, xAxisCol, yHeightCol, location){
 
     var svgWidth = 737;
     var svgHeight = 463;
@@ -105,7 +111,7 @@ function updateBarChart(data, location){
         left: 60
     };
 
-    const svg = d3.select("#barChart")
+    const svg = d3.select("#" + id)
                     .select("svg")
     
     const g = svg.selectAll("g")
@@ -121,42 +127,54 @@ function updateBarChart(data, location){
                 .rangeRound([height, 0]);
 
     x.domain(data.map(function (d) {
-                return d.month;
+                return d[xAxisCol];
             }));
 
     y.domain([0, d3.max(data, function (d) {
-                    return d.accCount;
+                    return d[yHeightCol];
                     })
                 ]);
     
     let rect = d3
-                .selectAll("#barChart")
+                .selectAll("#" + id)
+                .select("svg")
+                .select("g")
                 .selectAll("rect")
                 .data(data);            
 
     rect.exit().remove();
 
-    rect.enter()
-        .append("rect")        
-        .attr("class", "bar")
-        .merge(rect)
-        .transition()
-        .ease(d3.easeBounce)
-        .duration(1000)
-        .attr("x", function (d) {
-            return x(d.month);
-        })
-        .attr("y", function (d) {
-            return y(d.accCount);
-        })        
-        .attr("width", x.bandwidth())
-        .attr("height", function (d) {            
-            return height - y(d.accCount);
-        });
+    let bars = rect.enter()
+                    .append("rect")        
+                    .attr("class", "bar")
+                    .merge(rect);
+
+            bars.transition()
+                .ease(d3.easeBounce)
+                .duration(1000)
+                .attr("x", function (d) {
+                    return x(d[xAxisCol]);
+                })
+                .attr("y", function (d) {
+                    return y(d[yHeightCol]);
+                })        
+                .attr("width", x.bandwidth())
+                .attr("height", function (d) {            
+                    return height - y(d[yHeightCol]);
+                })
+                // .on("click", function(d){
+                    // console.log(d)
+                    // filterList[xAxisCol] = d.month;
+                    // console.log(filterList)
+                // });
 
     g.select(".y.axis")
             .transition().duration(1500)//.ease("sin-in-out")
             .call(d3.axisLeft(y));
+
+    g.select(".x.axis")
+            .transition().duration(1500)//.ease("sin-in-out")
+            .call(d3.axisBottom(x))
 
 }//end of updateBarChart
 
