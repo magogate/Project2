@@ -49,6 +49,7 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
         .call(d3.axisBottom(x))
         .attr("class", "x axis")
         .append("text")
+        .attr("class", "xaxisText")
         .attr("fill", "#fff")
         // .attr("transform", "rotate(-90)")
         .attr("x", 6)
@@ -94,6 +95,24 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
                         filterList[xAxisCol] = d.month;
                         filterData();
                     });
+
+                    // and to add the text labels
+                svg.selectAll(".toolTipText").remove();
+
+                svg              
+                    .selectAll(".text")
+                    .data(data)
+                    .enter()
+                    .append("text")
+                        .attr("x", function(d){ return x(d[xAxisCol])+70 })    
+                        .attr("y", function(d){ return y(d[yHeightCol]) + 15 })    // positioning text at bottom of a rectangle
+                        .text(function(d){                                
+                                return d[yHeightCol];
+                            })
+                        .attr("font-size", "12px")
+                        // .attr("font-weight", "bold")
+                        .attr("fill", "white")
+                        .attr("class","toolTipText")
 
 }//end of barTreeMap
 
@@ -171,10 +190,34 @@ function updateBarChart(data, id, xAxisCol, yHeightCol, location){
     g.select(".y.axis")
             .transition().duration(1500)//.ease("sin-in-out")
             .call(d3.axisLeft(y));
+            
 
     g.select(".x.axis")
             .transition().duration(1500)//.ease("sin-in-out")
-            .call(d3.axisBottom(x))
+            .call(d3.axisBottom(x));
+    
+    g.select(".xaxisText")
+                .text(function(d){
+                    return (id == "barChartDay") ? "Days" : "Months";
+                });
+
+    // and to add the text labels
+    svg.selectAll(".toolTipText").remove();
+            
+    svg              
+        .selectAll(".text")
+        .data(data)
+        .enter()
+        .append("text")
+            .attr("x", function(d){ return (id == "barChartDay") ? x(d[xAxisCol]) + 60 : x(d[xAxisCol])+70; })    
+            .attr("y", function(d){ return y(d[yHeightCol]) + 15 })    // positioning text at bottom of a rectangle
+            .text(function(d){                                
+                    return d[yHeightCol];
+                })
+            .attr("font-size", "12px")
+            // .attr("font-weight", "bold")
+            .attr("fill", "white")
+            .attr("class","toolTipText")
 
 }//end of updateBarChart
 
