@@ -195,6 +195,8 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     let acciCntByWeather = rendertAccidentsByLocation(filteredData, "Weather_Condition");
     renderTreeMap(acciCntByWeather, "weatherTreeMap", "Weather_Condition");
 
+    renderHeatMap(filteredData);
+
 })//end of d3.read_csv
 
 function getSunSetWiseAccCount(data){

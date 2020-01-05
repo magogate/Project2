@@ -171,3 +171,8 @@ This is for legend
 .tableLegend {
     font-size: .7em !important;
 }
+
+#map {
+  height: 100%;
+}
+ 
