@@ -38,7 +38,7 @@ function renderChoropleth(){
         style: {
           // Border color
           color: "black",
-          weight: 0.8,
+          weight: 0.2,
           fillOpacity: 0.1
         },
     
