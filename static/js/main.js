@@ -213,6 +213,9 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     // plotting chropleth, it has to be called only once
     renderChoropleth()
 
+    //---------------population code-------------------
+    getCountyPopulation()
+
 })//end of d3.read_csv
 
 function getSunSetWiseAccCount(data){
@@ -345,3 +348,11 @@ console.log(dayWiseAccCount_Revised)
         filterData(this.id);
     });
 }
+
+// ----------------------page 2: population ---------------------
+function getCountyPopulation(){
+  console.log("Inside getCountyPopulation")
+  d3.json("data/county_population.json").then(function(myData, err) {
+      console.log(myData)
+  })
+}//end of getCountyPopulation

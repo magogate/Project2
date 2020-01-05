@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import pandas as pd
 
 def getConnection():
     conn = MongoClient('localhost', 27017)
@@ -28,14 +29,24 @@ def insertCityPopulation(cities_list):
         db.city_population.insert(cities_list)
 
 def getCountyPopulation():
-    db = getConnection()
-    countyPopulation = list(db.county_population.find())
-    return countyPopulation
+    db = getConnection()    
+    # https://stackoverflow.com/questions/49153020/how-to-dump-a-collection-to-json-file-using-pymongo
+    countyPopulation = list(db.county_population.find({},{"population": 1, "_id":0, "county": 1}))
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html
+    df = pd.DataFrame(countyPopulation)
+    countyPopJson = df.to_json(orient='records')
+    print(countyPopJson)
+    
+    return countyPopJson
 
 def getCityPopulation():
-    db = getConnection()
-    cityPopulation = list(db.city_population.find())
-    return cityPopulation
+    db = getConnection()    
+    cityPopulation = list(db.city_population.find({},{"population": 1, "_id":0, "city": 1}))
+    # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html
+    df = pd.DataFrame(cityPopulation)
+    cityPopJson = df.to_json(orient='records')
+    print(cityPopJson)
+    return cityPopJson
 
 getCountyPopulation()
 getCityPopulation()
