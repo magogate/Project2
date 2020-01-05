@@ -210,6 +210,9 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
 
     renderHeatMap(filteredData);
 
+    // plotting chropleth, it has to be called only once
+    renderChoropleth()
+
 })//end of d3.read_csv
 
 function getSunSetWiseAccCount(data){

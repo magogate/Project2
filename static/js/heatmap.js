@@ -10,6 +10,46 @@
     accessToken: API_KEY
   }).addTo(myMap);
 
+  // Load in geojson data
+  var geoData = "data/Counties_Georgia.geojson";
+
+  var geojson;
+
+function renderChoropleth(){
+  // console.log("Inside renderChoropleth")
+  // Grab data with d3
+  // d3.json(geoData, function(data) {
+  d3.json(geoData).then(function(data, err) {
+    // console.log("Inside D3 of chropleth");
+    // console.log(data);
+    // Create a new choropleth layer
+    geojson = L.choropleth(data, {
+  
+        // Define what  property in the features to use
+        valueProperty: "Label",
+        // Set color scale
+        // scale: ["#ffffb2", "#b10026"],
+        
+        // Number of breaks in step range
+        steps: 0,
+    
+        // q for quartile, e for equidistant, k for k-means
+        mode: "q",
+        style: {
+          // Border color
+          color: "black",
+          weight: 0.8,
+          fillOpacity: 0.1
+        },
+    
+        // Binding a pop-up to each layer
+        onEachFeature: function(feature, layer) {
+          layer.bindPopup("County: " + feature.properties.NAMELSAD10);
+        }
+      }).addTo(myMap);  
+  })//end of d3 json
+}//end of renderChoropleth
+
 function renderHeatMap(data){
   // removeMap();
   d3.select("#map").select("canvas").remove()
