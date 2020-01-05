@@ -214,8 +214,8 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     renderChoropleth()
 
     //---------------population code-------------------
-    getCountyPopulation()
-    getCityPopulation()
+    // getCountyPopulation()
+    // getCityPopulation()
 
 })//end of d3.read_csv
 
@@ -350,52 +350,3 @@ console.log(dayWiseAccCount_Revised)
     });
 }
 
-// ----------------------page 2: population ---------------------
-function getCountyPopulation(){
-  let accidentByCounties;
-  console.log("Inside getCountyPopulation")
-  d3.json("data/county_population.json").then(function(myData, err) {
-      // console.log(myData)
-      accidentByCounties = myData;
-
-      let acciCntByLoc = rendertAccidentsByLocation(accidentData, "County");
-      
-      console.log(acciCntByLoc)
-
-      for(let i=0; i<acciCntByLoc.length; i++){
-        for(let j=0; j<accidentByCounties.length; j++){
-          if(acciCntByLoc[i].child == accidentByCounties[j].county.replace(" County", "")){
-            acciCntByLoc[i].population = accidentByCounties[j].population
-          }
-        }
-      }//end of for
-
-      // console.log(acciCntByLoc)
-  })//end of d3
-  return acciCntByLoc;
-}//end of getCountyPopulation
-
-
-function getCityPopulation(){
-  let accidentByCounties;
-  console.log("Inside getCityPopulation")
-  d3.json("data/city_population.json").then(function(myData, err) {
-      console.log(myData)
-      accidentByCities = myData;
-
-      let acciCntByLoc = rendertAccidentsByLocation(accidentData, "City");
-      
-      console.log(acciCntByLoc)
-
-      for(let i=0; i<acciCntByLoc.length; i++){
-        for(let j=0; j<accidentByCities.length; j++){          
-          (accidentByCities[j].city == null) ? accidentByCities[j].city = "" : true;
-          if(acciCntByLoc[i].child == accidentByCities[j].city.replace(" city", "")){
-            acciCntByLoc[i].population = accidentByCities[j].population
-          }
-        }
-      }//end of for
-      // console.log(acciCntByLoc)      
-  })//end of d3
-  return acciCntByLoc;
-}//end of getCityPopulation
