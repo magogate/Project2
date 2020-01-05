@@ -176,3 +176,14 @@ This is for legend
   height: 100%;
 }
  
+#mapFilter{    
+    z-index: 1000000;
+    position: relative;
+    padding: 1%;
+    width: 20%;
+    margin-left: 10%;
+}
+
+#selectMapFilters{
+    size: 10px;
+}

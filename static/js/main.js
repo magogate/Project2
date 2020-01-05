@@ -46,8 +46,6 @@ Colors.random = function (i) {
 
 let accidentData;
 
-
-
 // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 function compareValues(key, order = 'asc') {
     return function innerSort(a, b) {
@@ -75,6 +73,7 @@ function compareValues(key, order = 'asc') {
 let cmbLocation = d3.select("#selectLocation");
 let cmbFilters = d3.select("#selectFilters");
 let cmbTime = d3.select("#selectTime");
+let cmbMapFilter = d3.select("#selectMapFilters");
 
 cmbLocation.on("change", function(d){    
     let location = this.value;
@@ -99,7 +98,21 @@ cmbFilters.on("change", function(d){
   let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
   renderTreeMap(acciCntByLoc, "accidentsTree", location);
 
+  // renderHeatMap(filteredData);
+
 })//end of cmbFilter
+
+cmbMapFilter.on("change", function(d){
+
+  let colName = this.value;
+
+  filteredData = accidentData.filter(function(d){
+    return colName == "All" ? true : d[colName] == "TRUE";
+  })
+
+  renderHeatMap(filteredData);
+
+})//end of cmbMapFilter
 
 cmbTime.on("change", function(d){
   let time = this.value;
