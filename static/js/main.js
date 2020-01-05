@@ -85,7 +85,7 @@ cmbLocation.on("change", function(d){
                     })
 
     let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
-    renderTreeMap(acciCntByLoc, location);    
+    renderTreeMap(acciCntByLoc, "accidentsTree", location);    
 })//end of cmbLocation
 
 cmbFilters.on("change", function(d){
@@ -97,7 +97,7 @@ cmbFilters.on("change", function(d){
                     })  
   
   let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
-  renderTreeMap(acciCntByLoc, location);
+  renderTreeMap(acciCntByLoc, "accidentsTree", location);
 
 })//end of cmbFilter
 
@@ -151,7 +151,7 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
     let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
-    renderTreeMap(acciCntByLoc, location);
+    renderTreeMap(acciCntByLoc, "accidentsTree", location);
 
     // let yearWiseAccCnt = getYearWiseAccCount(accidentData);
     let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData);
@@ -191,6 +191,10 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     renderBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
 
     $('#barChartDay').hide();
+
+    let acciCntByWeather = rendertAccidentsByLocation(filteredData, "Weather_Condition");
+    renderTreeMap(acciCntByWeather, "weatherTreeMap", "Weather_Condition");
+
 })//end of d3.read_csv
 
 function getSunSetWiseAccCount(data){
@@ -232,6 +236,11 @@ function getDayWiseAccCount(data){
   }), "StartDay");
 }//end of getDayWiseAccCount
 
+function getWeatherWiseAccCount(){
+  return true;
+  // return aggregateData(data, "Weather_Condition");
+}
+
 function rendertAccidentsByLocation(data, location){
     let acciCntByLoc = aggregateData(data, location);
     
@@ -246,6 +255,7 @@ function rendertAccidentsByLocation(data, location){
     return acciCntByLoc;
     // renderTreeMap(acciCntByLoc, location)
 }//end of getAccidentsByCities
+
 
 // http://learnjsdata.com/group_data.html
 function aggregateData(data, colKey){

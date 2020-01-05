@@ -1,7 +1,7 @@
 
 // following example is copied from 
 // https://www.d3-graph-gallery.com/graph/treemap_basic.html
-function renderTreeMap(data, location){
+function renderTreeMap(data, id, location){
 
     var svgWidth = 737;
     var svgHeight = 463;
@@ -19,10 +19,10 @@ function renderTreeMap(data, location){
     var color = d3.scaleOrdinal(d3.schemeCategory10)
     
 
-    d3.select("#accidentsTree").selectAll("svg").remove();
+    d3.select("#"+id).selectAll("svg").remove();
 
     var svg = d3
-                .select("#accidentsTree")
+                .select("#"+id)
                 .append("svg")
                 .attr("width", svgWidth)
                 .attr("height", svgHeight)
