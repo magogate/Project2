@@ -1,7 +1,7 @@
 // https://bl.ocks.org/caravinden/d04238c4c9770020ff6867ee92c7dac1
 function renderBarChart(data, id, xAxisCol, yHeightCol, location){
 
-    d3.select("#barChart").selectAll("svg").remove();
+    d3.select("#" + id).selectAll("svg").remove();
 
 
     var svgWidth = 737;

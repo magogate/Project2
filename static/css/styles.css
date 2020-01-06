@@ -187,3 +187,8 @@ This is for legend
 #selectMapFilters{
     size: 10px;
 }
+
+.toolTip{
+    color: white;
+    font-size: 12px;
+  }

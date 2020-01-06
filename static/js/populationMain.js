@@ -75,41 +75,43 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     // console.log(myData);    
     accidentData = myData;
     getCountyPopulation()
-    getCityPopulation()
+    // getCityPopulation()
+    
 })//end of d3.csv
 
 function getCountyPopulation(){
     let accidentByCounties;
     console.log("Inside getCountyPopulation")
-    let acciCntByLoc = rendertAccidentsByLocation(accidentData, "County");
+    let acciCntByLoc = rendertAccidentsByLocation(accidentData, "County");    
+
     d3.json("data/county_population.json").then(function(myData, err) {
         // console.log(myData)
         accidentByCounties = myData;        
-        console.log(acciCntByLoc)
-  
-        for(let i=0; i<acciCntByLoc.length; i++){
-          for(let j=0; j<accidentByCounties.length; j++){
-            if(acciCntByLoc[i].child == accidentByCounties[j].county.replace(" County", "")){
-              acciCntByLoc[i].population = accidentByCounties[j].population
+        var newObj = [];    
+        acciCntByLoc.forEach(function(d) {
+          accidentByCounties.forEach(function(v){
+            if(d.child == v.county.replace(" County", "")){
+              d.population = v.population;
+              newObj.push(d);
             }
-          }
-        }//end of for
-  
-        console.log(acciCntByLoc)
+          })
+        });
+        renderScatterChart(newObj, "scatterPlot", "value", "population", location);  
     })//end of d3
-    return acciCntByLoc;
+    // console.log(newObj)
+    // return newObj;
   }//end of getCountyPopulation
   
   
-  function getCityPopulation(){
-    let accidentByCounties;
-    console.log("Inside getCityPopulation")
+  function getCityPopulation(){    
+    // console.log("Inside getCityPopulation")
+    
     let acciCntByLoc = rendertAccidentsByLocation(accidentData, "City");
     d3.json("data/city_population.json").then(function(myData, err) {
-        console.log(myData)
+        // console.log(myData)
         accidentByCities = myData;
         
-        console.log(acciCntByLoc)
+        // console.log(acciCntByLoc)
   
         for(let i=0; i<acciCntByLoc.length; i++){
           for(let j=0; j<accidentByCities.length; j++){          
@@ -119,7 +121,7 @@ function getCountyPopulation(){
             }
           }
         }//end of for
-        console.log(acciCntByLoc)      
+        // console.log(acciCntByLoc)      
     })//end of d3
     return acciCntByLoc;
   }//end of getCityPopulation
