@@ -30,6 +30,16 @@ function aggregateData(data, colKey){
       return aggData;
   }//end of aggregateDate
   
+cmbPopulation = d3.select("#selectPopulation");
+
+cmbPopulation.on("change", function(d){
+  let location = this.value;
+  if(location == "City"){
+    getCityPopulation()
+  }else{
+    getCountyPopulation()
+  }
+})
 
 // https://www.sitepoint.com/sort-an-array-of-objects-in-javascript/
 function compareValues(key, order = 'asc') {
@@ -74,8 +84,9 @@ function rendertAccidentsByLocation(data, location){
 d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     // console.log(myData);    
     accidentData = myData;
-    getCountyPopulation()
-    // getCityPopulation()
+    // getCountyPopulation()
+    getCityPopulation()
+    
     
 })//end of d3.csv
 
@@ -96,7 +107,7 @@ function getCountyPopulation(){
             }
           })
         });
-        renderScatterChart(newObj, "scatterPlot", "value", "population", location);  
+        renderScatterChart(newObj, "scatterPlot", "value", "population", "County");  
     })//end of d3
     // console.log(newObj)
     // return newObj;
@@ -110,17 +121,29 @@ function getCountyPopulation(){
     d3.json("data/city_population.json").then(function(myData, err) {
         // console.log(myData)
         accidentByCities = myData;
-        
+        var newObj = [];    
         // console.log(acciCntByLoc)
   
-        for(let i=0; i<acciCntByLoc.length; i++){
-          for(let j=0; j<accidentByCities.length; j++){          
-            (accidentByCities[j].city == null) ? accidentByCities[j].city = "" : true;
-            if(acciCntByLoc[i].child == accidentByCities[j].city.replace(" city", "")){
-              acciCntByLoc[i].population = accidentByCities[j].population
+        // for(let i=0; i<acciCntByLoc.length; i++){
+        //   for(let j=0; j<accidentByCities.length; j++){          
+        //     (accidentByCities[j].city == null) ? accidentByCities[j].city = "" : true;
+        //     if(acciCntByLoc[i].child == accidentByCities[j].city.replace(" city", "")){
+        //       acciCntByLoc[i].population = accidentByCities[j].population
+        //     }
+        //   }
+        // }//end of for
+
+        acciCntByLoc.forEach(function(d) {
+          accidentByCities.forEach(function(v){
+            (v.city == null) ? v.city = "" : true;
+            if(d.child == v.city.replace(" city", "")){
+              d.population = v.population;
+              newObj.push(d);
             }
-          }
-        }//end of for
+          })
+        });
+        // renderScatterChart(newObj, "scatterPlot", "value", "population", location);  
+        renderScatterChart(newObj, "scatterPlot", "value", "population", "City")
         // console.log(acciCntByLoc)      
     })//end of d3
     return acciCntByLoc;

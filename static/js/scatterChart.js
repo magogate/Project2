@@ -33,13 +33,13 @@ function renderScatterChart(myData, id, xAxisCol, yHeightCol, location){
 
       // Create scaling functions
     var xLinearScale = d3.scaleLinear()
-                        .domain([0, d3.max(myData, d => d[xAxisCol])])
-                        // .domain([0, 600])
+                        // .domain([0, d3.max(myData, d => d[xAxisCol])])
+                        .domain([0, 100])
                         .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-                        .domain([0, d3.max(myData, d => d[yHeightCol])])
-                        // .domain([0, 150000])
+                        // .domain([0, d3.max(myData, d => d[yHeightCol])])
+                        .domain([0, 40000])
                         .range([height, 0]);
 
     

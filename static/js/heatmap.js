@@ -1,15 +1,47 @@
-  var myMap = L.map("map", {
+var heat;
+
+// https://docs.mapbox.com/api/maps/#styles
+// Create the tile layer that will be the background of our map
+var grayscalemap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/outdoors-v11/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {  
+  maxZoom: 18,
+  id: "mapbox.outdoors-v11",
+  accessToken: API_KEY
+});
+
+var lightmap = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {  
+  maxZoom: 18,
+  id: "mapbox.light-v9",
+  accessToken: API_KEY
+});
+
+var satellite = L.tileLayer("https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {  
+  maxZoom: 18,
+  id: "mapbox.satellite-v9",
+  accessToken: API_KEY
+});
+
+var streets = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+  attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
+  maxZoom: 18,
+  id: "mapbox.streets",
+  accessToken: API_KEY
+})//.addTo(myMap);
+
+
+// Only one base layer can be shown at a time
+var baseMaps = {
+  Satellite: satellite,
+  Outdoor: lightmap,
+  Grayscale: grayscalemap,
+  Street: streets
+};
+
+var myMap = L.map("map", {
     center: [33.681113, -83.176415],
     zoom: 9
   });
 
-  L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-    attribution: "Map data &copy; <a href='https://www.openstreetmap.org/'>OpenStreetMap</a> contributors, <a href='https://creativecommons.org/licenses/by-sa/2.0/'>CC-BY-SA</a>, Imagery © <a href='https://www.mapbox.com/'>Mapbox</a>",
-    maxZoom: 18,
-    id: "mapbox.streets",
-    accessToken: API_KEY
-  }).addTo(myMap);
-
+streets.addTo(myMap)
   // Load in geojson data
   var geoData = "data/Counties_Georgia.geojson";
 
@@ -19,11 +51,12 @@ function renderChoropleth(){
   // console.log("Inside renderChoropleth")
   // Grab data with d3
   // d3.json(geoData, function(data) {
+    var geojson = [];
   d3.json(geoData).then(function(data, err) {
     // console.log("Inside D3 of chropleth");
     // console.log(data);
     // Create a new choropleth layer
-    geojson = L.choropleth(data, {
+    geojson.push(L.choropleth(data, {
   
         // Define what  property in the features to use
         valueProperty: "Label",
@@ -46,8 +79,25 @@ function renderChoropleth(){
         onEachFeature: function(feature, layer) {
           layer.bindPopup("County: " + feature.properties.NAMELSAD10);
         }
-      }).addTo(myMap);  
+      })
+    )//.addTo(myMap);  
+
+      var geojsonLayer = L.layerGroup(geojson);
+
+      // geojsonLayer.addTo(myMap);
+
+      var overlayMaps = {
+        GeoJLayer: geojsonLayer,
+        HeatLayer: heat
+      };
+
+      // Add the layer control to the map
+      // https://stackoverflow.com/questions/45092237/make-leaflet-layers-control-with-checkboxes-not-radio-buttons
+      L.control.layers(null, overlayMaps).addTo(myMap); 
+
   })//end of d3 json
+
+  
 }//end of renderChoropleth
 
 function renderHeatMap(data){
@@ -62,7 +112,7 @@ function renderHeatMap(data){
     heatArray.push([lat, lng]);
   }
   // console.log(heatArray)
-  var heat = L.heatLayer(heatArray, {
+   heat = L.heatLayer(heatArray, {
     radius: 20,
     blur: 35
   }).addTo(myMap);

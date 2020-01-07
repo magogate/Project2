@@ -43,16 +43,23 @@
           </section>
           <section class="locations">
             <container class="container">
+              <!-- https://mdbootstrap.com/snippets/jquery/mdbootstrap/818822 -->
+              <div id="selectPopulationLoc">
+                <select id="selectPopulation" class="browser-default custom-select">                        
+                  <option value="City">City</option>
+                  <option value="County">County</option>
+                </select>                    
+              </div>
                 <div class="row ">
-                    <div class="col col-lg-4">
+                    <!-- <div class="col col-lg-4">
                       <div class="timeDiv">
                         <h3>Population Vs Accidents</h3>
                       </div>
                         <p>
                             Let's understand corelation between accidents and population..
                         </p>
-                    </div>    
-                    <div class="col col-lg-8">
+                    </div>     -->
+                    <div class="col col-lg-12">
                         <div id="scatterPlot">
     
                         </div>
@@ -88,9 +95,11 @@
 
         <!-- JS Files for Analysis -->
         <script src='https://cdn.plot.ly/plotly-latest.min.js'></script>
+        <script type="text/javascript" src="static/js/scatterChart.js"></script>
+        <script type="text/javascript" src="static/js/scatterChartPlotly.js"></script>
         <!-- <script type="text/javascript" src="static/js/heatmap.js"></script> -->
         <!-- <script type="text/javascript" src="static/js/choropleth.js"></script>     -->
         <script type="text/javascript" src="static/js/populationMain.js"></script>
-        <script type="text/javascript" src="static/js/scatterChart.js"></script>
+        
     </body>
 </html>

@@ -192,3 +192,19 @@ This is for legend
     color: white;
     font-size: 12px;
   }
+
+  /* https://css-tricks.com/multiple-class-id-selectors/ */
+.leaflet-bottom.leaflet-right {
+    background-color: white;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+
+/*
+  Population Page
+*/
+
+#selectPopulationLoc{
+    width: 30%;
+    padding: 2%;
+}
