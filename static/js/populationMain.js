@@ -95,7 +95,8 @@ function getCountyPopulation(){
     console.log("Inside getCountyPopulation")
     let acciCntByLoc = rendertAccidentsByLocation(accidentData, "County");    
 
-    d3.json("data/county_population.json").then(function(myData, err) {
+    // d3.json("data/county_population.json").then(function(myData, err) {
+    d3.json("http://127.0.0.1:5000/county").then(function(myData, err) {
         // console.log(myData)
         accidentByCounties = myData;        
         var newObj = [];    
@@ -118,7 +119,8 @@ function getCountyPopulation(){
     // console.log("Inside getCityPopulation")
     
     let acciCntByLoc = rendertAccidentsByLocation(accidentData, "City");
-    d3.json("data/city_population.json").then(function(myData, err) {
+    // d3.json("data/city_population.json").then(function(myData, err) {
+    d3.json("http://127.0.0.1:5000/city").then(function(myData, err) {
         // console.log(myData)
         accidentByCities = myData;
         var newObj = [];    

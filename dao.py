@@ -2,10 +2,10 @@ from pymongo import MongoClient
 import pandas as pd
 
 def getConnection():
-    # conn = MongoClient('localhost', 27017)
-    connString = "mongodb+srv://mandargogate:Password123@cluster0-x4wnf.mongodb.net/test?retryWrites=true&w=majority"
+    conn = MongoClient('localhost', 27017)
+    # connString = "mongodb+srv://mandargogate:Password123@cluster0-x4wnf.mongodb.net/test?retryWrites=true&w=majority"
     
-    conn = MongoClient(connString, 27017)
+    # conn = MongoClient(connString, 27017)
     
     conn.population
     return conn.population
