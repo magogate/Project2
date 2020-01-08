@@ -4,6 +4,7 @@ import pandas as pd
 def getConnection():
     # conn = MongoClient('localhost', 27017)
     connString = "mongodb+srv://mandargogate:Password123@cluster0-x4wnf.mongodb.net/test?retryWrites=true&w=majority"
+    
     conn = MongoClient(connString, 27017)
     
     conn.population
@@ -38,7 +39,7 @@ def getCountyPopulation():
     # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html
     df = pd.DataFrame(countyPopulation)
     countyPopJson = df.to_json(orient='records')
-    print(countyPopJson)
+    # print(countyPopJson)
     
     return countyPopJson
 
@@ -48,7 +49,7 @@ def getCityPopulation():
     # https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.to_json.html
     df = pd.DataFrame(cityPopulation)
     cityPopJson = df.to_json(orient='records')
-    print(cityPopJson)
+    # print(cityPopJson)
     return cityPopJson
 
 getCountyPopulation()
