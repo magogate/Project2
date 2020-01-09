@@ -91,6 +91,17 @@ function rederPieChart(data){
                         .attr("stroke", "white")
                         .attr("stroke-width", "1px")
                         .each(function(d) { this._current = d; })
+                        .on('click', function (d) {
+                            d3.selectAll(this.parentNode.childNodes)
+                              .attr("stroke-width", "1px")
+                              .style("filter", "");
+          
+                            d3.select(this)
+                              .attr("stroke-width", "2px")
+                              .attr("stroke", "#Aer446")
+                              .style("filter", "url(#drop-shadow)");
+                            //return thisChart.click(d);
+                          })
                         .on('mouseover', tip.show)
                         .on('mouseout', tip.hide);
     }//end of update            
