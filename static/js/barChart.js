@@ -79,8 +79,11 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
                     .enter()
                     .append("rect");
 
-                rect.attr("class", function(d){
-                        // console.log(d);
+                rect.attr("class", function(d){                        
+                        // let time = d3.select("#selectTime").property("value");                        
+                        // console.log(filterList.month);
+                        // console.log(time);
+                        // (filterList.month != "" && time != "All") ? console.log(d) : true
                         return "bar";
                     })
                     .attr("x", function (d) {
@@ -125,6 +128,8 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
 // https://bl.ocks.org/caravinden/d04238c4c9770020ff6867ee92c7dac1
 function updateBarChart(data, id, xAxisCol, yHeightCol, location){
 
+   
+
     var svgWidth = 737;
     var svgHeight = 463;
 
@@ -133,7 +138,7 @@ function updateBarChart(data, id, xAxisCol, yHeightCol, location){
         right: 20,
         bottom: 30,
         left: 60
-    };
+    };    
 
     const svg = d3.select("#" + id)
                     .select("svg")
@@ -170,7 +175,13 @@ function updateBarChart(data, id, xAxisCol, yHeightCol, location){
 
     let bars = rect.enter()
                     .append("rect")        
-                    .attr("class", "bar")
+                    .attr("class", function(d){
+                        let time = d3.select("#selectTime").property("value");                        
+                        // console.log(filterList.month);
+                        // console.log(time);
+                        // (filterList.month != "" && time != "All") ? console.log(d) : true
+                        return "bar";
+                    })
                     .merge(rect);
 
             bars.transition()
@@ -185,6 +196,17 @@ function updateBarChart(data, id, xAxisCol, yHeightCol, location){
                 .attr("width", x.bandwidth())
                 .attr("height", function (d) {            
                     return height - y(d[yHeightCol]);
+                })
+                .attr("class", function(d){
+                    let time = d3.select("#selectTime").property("value");                        
+                    // console.log(filterList.month);
+                    // console.log(time);
+                    // https://www.w3schools.com/js/js_dates.asp
+                    // https://stackoverflow.com/questions/24998624/day-name-from-date-in-js
+                    let weekday;
+                    (filterList.month != "" && time != "All") ? weekday = (new Date(time, filterList.month-1, d.day).getDay()) : true;
+                    // (filterList.month != "" && time != "All") ? console.log(new Date(time, filterList.month-1, d.day)) : true;
+                    return (weekday == 0 || weekday == 6) ? "barweekend" : "bar";
                 })
                 // .on("click", function(d){
                     // console.log(d)
