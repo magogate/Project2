@@ -79,7 +79,10 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
                     .enter()
                     .append("rect");
 
-                rect.attr("class", "bar")
+                rect.attr("class", function(d){
+                        // console.log(d);
+                        return "bar";
+                    })
                     .attr("x", function (d) {
                         return x(d[xAxisCol]);
                     })
@@ -91,8 +94,11 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
                         return height - y(d[yHeightCol]);
                     })
                     .on("click", function(d){                        
-                        filterList[xAxisCol] = d.month;
-                        filterData();
+                        if(d.month != undefined){
+                            // console.log(d.month)
+                            filterList[xAxisCol] = d.month;
+                            filterData();     
+                        }                        
                     });
 
                     // and to add the text labels

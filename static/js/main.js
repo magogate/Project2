@@ -116,14 +116,16 @@ cmbMapFilter.on("change", function(d){
 
 cmbTime.on("change", function(d){
   let time = this.value;
-  console.log(time)
+  // console.log(time)
 
   let filteredData = accidentData.filter(function(d){
                     return time == "All" ? true : d["StartYear"] == time;
                   })  
 
   // let yearWiseAccCnt = getYearWiseAccCount(filteredData);
-  let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData)
+  let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData.filter(function(d){
+                                                      return (filterList.month == "") ? true : d.StartMonth == filterList.month
+                                                    }))
   updatePieChart(sunSetWiseAccCnt, "accTimePie", "day");
 
   let monthWiseAccCount = getMonthWiseAccCount(filteredData)
@@ -190,7 +192,7 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     renderBarChart(monthWiseAccCount_Revised, "barChartMonth", "month", "accCount", "");  
 
     let dayWiseAccCount = getDayWiseAccCount(accidentData);
-    console.log(dayWiseAccCount)
+    // console.log(dayWiseAccCount)
 
     let dayWiseAccCount_Revised = dayWiseAccCount.map(function(d){
                                           return {
@@ -353,10 +355,10 @@ function filterData(){
                                                       }
                                                   })
                                                   .sort(compareValues('day', 'asc'));
-  console.log(dayWiseAccCount_Revised)
+  // console.log(dayWiseAccCount_Revised)
   updateBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
 
-    console.log(Title)
+    // console.log(Title)
     $('#divTitle').empty().html(Title);
 
     if (filterList.month != '') {              
@@ -369,7 +371,7 @@ function filterData(){
   
     $(".closeFilter").on("click", function (event) {
         var a = this.id;        
-        console.log("Inside close filter..")
+        // console.log("Inside close filter..")
         $.each(filterList, function (key, value) {        	
           if (key + value == a) { filterList[key] = ''; }
         });

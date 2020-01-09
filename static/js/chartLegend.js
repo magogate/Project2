@@ -23,7 +23,7 @@ function tabulate(dataSet, id, columns, dataname) {
         cnt++;
     })  
 
-    console.log(tableData)
+    // console.log(tableData)
     
     // append the header row
     thead.append('tr')

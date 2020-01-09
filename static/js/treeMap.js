@@ -43,7 +43,7 @@ function renderTreeMap(data, id, location){
             .padding(4)
             (root)    
 
-    console.log(root)
+    // console.log(root)
 
     // use this information to add rectangles:
     let rects = svg

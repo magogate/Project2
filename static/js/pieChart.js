@@ -164,10 +164,10 @@ function updatePieChart(data, id, colName){
 
     let radius = Math.min(width, height) / 2;
 
-    console.log("inside pie update call...")
-    console.log(filterList[colName] == null);
-    console.log(filterList[colName] == undefined);
-    console.log(filterList[colName] == "");
+    // console.log("inside pie update call...")
+    // console.log(filterList[colName] == null);
+    // console.log(filterList[colName] == undefined);
+    // console.log(filterList[colName] == "");
 
     (filterList[colName] == "") ? d3.select("#"+id).selectAll("path").attr("stroke-width", "1px").style("filter", "") : true;
 
