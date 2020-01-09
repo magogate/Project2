@@ -90,8 +90,7 @@ function renderBarChart(data, id, xAxisCol, yHeightCol, location){
                     .attr("height", function (d) {            
                         return height - y(d[yHeightCol]);
                     })
-                    .on("click", function(d){
-                        console.log(d)
+                    .on("click", function(d){                        
                         filterList[xAxisCol] = d.month;
                         filterData();
                     });

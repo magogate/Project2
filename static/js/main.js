@@ -79,7 +79,7 @@ cmbLocation.on("change", function(d){
     let location = this.value;
     let colName = d3.select("#selectFilters").property("value");
 
-    filteredData = accidentData.filter(function(d){
+    let filteredData = accidentData.filter(function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
 
@@ -91,7 +91,7 @@ cmbFilters.on("change", function(d){
   let colName = this.value;
   let location = d3.select("#selectLocation").property("value");
 
-  filteredData = accidentData.filter(function(d){
+  let filteredData = accidentData.filter(function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })  
   
@@ -106,7 +106,7 @@ cmbMapFilter.on("change", function(d){
 
   let colName = this.value;
 
-  filteredData = accidentData.filter(function(d){
+  let filteredData = accidentData.filter(function(d){
     return colName == "All" ? true : d[colName] == "TRUE";
   })
 
@@ -118,13 +118,13 @@ cmbTime.on("change", function(d){
   let time = this.value;
   console.log(time)
 
-  filteredData = accidentData.filter(function(d){
+  let filteredData = accidentData.filter(function(d){
                     return time == "All" ? true : d["StartYear"] == time;
                   })  
 
   // let yearWiseAccCnt = getYearWiseAccCount(filteredData);
   let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData)
-  updatePieChart(sunSetWiseAccCnt);
+  updatePieChart(sunSetWiseAccCnt, "accTimePie", "day");
 
   let monthWiseAccCount = getMonthWiseAccCount(filteredData)
     
@@ -160,7 +160,7 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     accidentData = myData;
     let location = "City"
     let colName = d3.select("#selectFilters").property("value");
-    filteredData = accidentData.filter(function(d){
+    let filteredData = accidentData.filter(function(d){
                       return colName == "All" ? true : d[colName] == "TRUE";
                     })
     let acciCntByLoc = rendertAccidentsByLocation(filteredData, location);
@@ -168,7 +168,7 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
 
     // let yearWiseAccCnt = getYearWiseAccCount(accidentData);
     let sunSetWiseAccCnt = getSunSetWiseAccCount(accidentData);
-    rederPieChart(sunSetWiseAccCnt);
+    rederPieChart(sunSetWiseAccCnt, "accTimePie", "day");
     
     sunSetWiseAccCnt.forEach(function(d){
         _dashboard.accTime.push(d);
@@ -314,10 +314,37 @@ function filterData(){
   var FilterStr = "<div class='divFilter'><img class='closeFilter' src='static/img/close2.png' id='#Filter'>";            
   var CloseStr = "</div>";
   var Title = filterList.month == "" ? "" : FilterStr.replace('#Filter', "month" + filterList.month)  + "Month - " + filterList.month + CloseStr;
-  // Title += filterList.day == "" ? "" : FilterStr.replace('#Filter', "day" + filterList.ST) + "Swimming & Trampoline - " + filterListDesc.ST  + CloseStr;
+  Title += filterList.day == "" ? "" : FilterStr.replace('#Filter', "day" + filterList.day) + "Day - " + filterList.day + CloseStr;
 
-  let dayWiseAccCount = getDayWiseAccCount(accidentData);
+  let time = d3.select("#selectTime").property("value");
+  let filteredData = accidentData.filter(function(d){
+                    return time == "All" ? true : d["StartYear"] == time;
+                  })  
+  // let yearWiseAccCnt = getYearWiseAccCount(filteredData);
+  let sunSetWiseAccCnt = getSunSetWiseAccCount(filteredData.filter(function(d){
+                                                            return (filterList.month == "") ? true : d.StartMonth == filterList.month
+                                                          }))
+  updatePieChart(sunSetWiseAccCnt, "accTimePie", "day");
 
+  let monthWiseAccCount = getMonthWiseAccCount(filteredData.filter(function(d){
+                                                                    return (filterList.day == "") ? true : d.Sunrise_Sunset == filterList.day
+                                                                  }))
+    
+  let monthWiseAccCount_Revised = monthWiseAccCount.map(function(d){
+                                return {
+                                        month: Number(d.child),
+                                        accCount: d.value,
+                                        percentage: d.percentage
+                                }
+                            })
+                            .sort(compareValues('month', 'asc'));
+
+  updateBarChart(monthWiseAccCount_Revised, "barChartMonth", "month", "accCount", "");  
+
+
+  let dayWiseAccCount = getDayWiseAccCount(accidentData.filter(function(d){
+                                                                  return (filterList.day == "") ? true : d.Sunrise_Sunset == filterList.day
+                                                                }));
   let dayWiseAccCount_Revised = dayWiseAccCount.map(function(d){
                                                       return {
                                                               day: Number(d.child),
@@ -326,7 +353,7 @@ function filterData(){
                                                       }
                                                   })
                                                   .sort(compareValues('day', 'asc'));
-console.log(dayWiseAccCount_Revised)
+  console.log(dayWiseAccCount_Revised)
   updateBarChart(dayWiseAccCount_Revised, "barChartDay", "day", "accCount", "");  
 
     console.log(Title)

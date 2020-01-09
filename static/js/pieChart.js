@@ -3,7 +3,7 @@
 
 // var pieChartColor = ["#111d5e","#b21f66","#fe346e","#ffbd69"]
             
-function rederPieChart(data){
+function rederPieChart(data, id, colName){
 
     let svgWidth = 350;
     let svgHeight = 350;
@@ -68,7 +68,7 @@ function rederPieChart(data){
 
     // d3.select("#accTimePie").selectAll("svg").remove();
 
-    const svg = d3.select("#accTimePie")
+    const svg = d3.select("#" + id)//accTimePie")
                     .append("svg")
                         .attr("width", width)
                         .attr("height", height)
@@ -91,6 +91,7 @@ function rederPieChart(data){
                         .attr("stroke", "white")
                         .attr("stroke-width", "1px")
                         .each(function(d) { this._current = d; })
+                        .style('cursor', 'pointer')
                         .on('click', function (d) {
                             d3.selectAll(this.parentNode.childNodes)
                               .attr("stroke-width", "1px")
@@ -100,6 +101,11 @@ function rederPieChart(data){
                               .attr("stroke-width", "2px")
                               .attr("stroke", "#Aer446")
                               .style("filter", "url(#drop-shadow)");
+
+                            //   console.log(d.data.time)
+
+                            filterList[colName] = d.data.time;
+                            filterData();
                             //return thisChart.click(d);
                           })
                         .on('mouseover', tip.show)
@@ -141,7 +147,7 @@ function rederPieChart(data){
 }
 
 //to update data.. created a seperate function.
-function updatePieChart(data){
+function updatePieChart(data, id, colName){
 
     let svgWidth = 350;
     let svgHeight = 350;
@@ -157,6 +163,13 @@ function updatePieChart(data){
     let height = svgHeight - margin.top - margin.bottom;
 
     let radius = Math.min(width, height) / 2;
+
+    console.log("inside pie update call...")
+    console.log(filterList[colName] == null);
+    console.log(filterList[colName] == undefined);
+    console.log(filterList[colName] == "");
+
+    (filterList[colName] == "") ? d3.select("#"+id).selectAll("path").attr("stroke-width", "1px").style("filter", "") : true;
 
     //Mouseover tip
     var tip = d3.tip()
@@ -195,7 +208,7 @@ function updatePieChart(data){
                     return (t) => arc(i(t));
                 }
 
-    const svg = d3.select("#accTimePie")
+    const svg = d3.select("#"+id)//accTimePie")
                     .selectAll("svg");
     
     svg.call(tip);          
