@@ -33,6 +33,7 @@
 .timeDiv{
     text-align: center;
     padding: 2%;    
+    padding-left: 0;
 }
 #accTimePie{
     padding-right: 0;
@@ -41,7 +42,8 @@
 /* treemap section */
 .locations{
     height: 600px;
-    background-color: #f1f8fd;        
+    /* background-color: #f1f8fd;         */
+    background-color: #fff;
     font-family: 'Roboto', sans-serif;
     padding: 5% 10%;
     font-style: normal ;
@@ -97,16 +99,16 @@ h4{
 }
 
 .maps{
-    height: 600px;
-    padding: 5% 10%;
-    background-color: #005691;        
+    height: 700px;
+    padding: 7% 7%;
+    background-color: #fff;        
     text-align: center;
     color: #fff;
 }
 
 /* footer section */
 .footer{
-    height: 60px;
+    /* height: 60px; */
     background-color: #f1f8fd;        
     font-family: 'Roboto', sans-serif;    
     font-style: normal ;    
@@ -118,6 +120,9 @@ h6{
     margin: 0; 
     font-weight: bold;
     padding: 2% 10%;
+    /* padding-bottom: 0% !important; */
+    background-color: #005691;
+    color: white
 }
 /*
     D3 tool tip
