@@ -316,7 +316,7 @@ function filterData(){
   var FilterStr = "<div class='divFilter'><img class='closeFilter' src='static/img/close2.png' id='#Filter'>";            
   var CloseStr = "</div>";
   var Title = filterList.month == "" ? "" : FilterStr.replace('#Filter', "month" + filterList.month)  + "Month - " + filterList.month + CloseStr;
-  Title += filterList.day == "" ? "" : FilterStr.replace('#Filter', "day" + filterList.day) + "Day - " + filterList.day + CloseStr;
+  Title += filterList.day == "" ? "" : FilterStr.replace('#Filter', "day" + filterList.day) + "Time - " + filterList.day + CloseStr;
 
   let time = d3.select("#selectTime").property("value");
   let filteredData = accidentData.filter(function(d){

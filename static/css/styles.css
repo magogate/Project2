@@ -208,3 +208,22 @@ This is for legend
     width: 30%;
     padding: 2%;
 }
+
+#divTitle{
+    display: flex;
+}
+
+.divFilter{
+    /* padding-left: 2%; */
+    /* size:5px; */
+    background-color: steelblue;
+    height: 30px;
+    width: 120px;
+    border-radius: 5%;
+    margin-left: 2%;
+}
+
+.divFilter>img{
+    padding-left: 5px;
+    padding-right: 5px;
+}
