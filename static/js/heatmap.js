@@ -36,9 +36,13 @@ var baseMaps = {
   Street: streets
 };
 
+// https://github.com/Leaflet/Leaflet.fullscreen
 var myMap = L.map("map", {
     center: [33.681113, -83.176415],
-    zoom: 9
+    zoom: 9,
+    fullscreenControl: {
+      pseudoFullscreen: false // if true, fullscreen to page width and height
+    }
   });
 
 streets.addTo(myMap)

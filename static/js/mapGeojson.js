@@ -6,7 +6,10 @@
 // Creating map object
 var myMap = L.map("map", {
     center: [34.0522, -118.2437],
-    zoom: 8
+    zoom: 8,
+    fullscreenControl: {
+      pseudoFullscreen: false // if true, fullscreen to page width and height
+    }
   });
   
   // Adding tile layer
