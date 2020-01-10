@@ -1,3 +1,13 @@
+//  Created By: 
+//      Grettel Canepari
+//      Katherine Lee
+//      Mandar Gogate
+//      Petra Alex
+//      Preet Puri
+//      Sweta Shekhar
+//  Created On: 01/01/2019
+//  Updated On: 01/10/2019
+
 // https://bl.ocks.org/mbostock/1346410
 // https://bl.ocks.org/adamjanes/5e53cfa2ef3d3f05828020315a3ba18c/22619fa86de2045b6eeb4060e747c5076569ec47
 

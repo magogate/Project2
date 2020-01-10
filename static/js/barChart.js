@@ -1,3 +1,13 @@
+//  Created By: 
+//      Grettel Canepari
+//      Katherine Lee
+//      Mandar Gogate
+//      Petra Alex
+//      Preet Puri
+//      Sweta Shekhar
+//  Created On: 01/01/2019
+//  Updated On: 01/10/2019
+
 // https://bl.ocks.org/caravinden/d04238c4c9770020ff6867ee92c7dac1
 function renderBarChart(data, id, xAxisCol, yHeightCol, location){
 

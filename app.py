@@ -1,3 +1,13 @@
+# Created By: 
+#     Grettel Canepari
+#     Katherine Lee
+#     Mandar Gogate
+#     Petra Alex
+#     Preet Puri
+#     Sweta Shekhar
+# Created On: 01/01/2019
+# Updated On: 01/10/2019
+
 #https://stackoverflow.com/questions/31252791/flask-importerror-no-module-named-flask
 #https://stackoverflow.com/questions/10572498/importerror-no-module-named-sqlalchemy
 

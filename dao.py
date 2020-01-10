@@ -1,3 +1,14 @@
+# Created By: 
+#     Grettel Canepari
+#     Katherine Lee
+#     Mandar Gogate
+#     Petra Alex
+#     Preet Puri
+#     Sweta Shekhar
+# Created On: 01/01/2019
+# Updated On: 01/10/2019
+
+
 from pymongo import MongoClient
 import pandas as pd
 

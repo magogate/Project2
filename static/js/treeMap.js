@@ -1,3 +1,12 @@
+//  Created By: 
+//      Grettel Canepari
+//      Katherine Lee
+//      Mandar Gogate
+//      Petra Alex
+//      Preet Puri
+//      Sweta Shekhar
+//  Created On: 01/01/2019
+//  Updated On: 01/10/2019
 
 // following example is copied from 
 // https://www.d3-graph-gallery.com/graph/treemap_basic.html

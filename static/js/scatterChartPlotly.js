@@ -1,3 +1,13 @@
+//  Created By: 
+//      Grettel Canepari
+//      Katherine Lee
+//      Mandar Gogate
+//      Petra Alex
+//      Preet Puri
+//      Sweta Shekhar
+//  Created On: 01/01/2019
+//  Updated On: 01/10/2019
+
 function renderScatterChart(myData, id, xAxis, yAxis, col){
 
   d3.select(".plot-container.plotly").remove();

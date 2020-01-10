@@ -1,3 +1,13 @@
+  /* Created By: 
+      Grettel Canepari
+      Katherine Lee
+      Mandar Gogate
+      Petra Alex
+      Preet Puri
+      Sweta Shekhar
+  Created On: 01/01/2019
+  Updated On: 01/10/2019 */
+
 /* header section */
 .header{
     background-color: #f1f8fd;
@@ -232,4 +242,16 @@ This is for legend
 .divFilter>img{
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.flow{
+    /* height: 900px; */
+    /* background-color: #f1f8fd;         */
+    background-color: #fff;
+    font-family: 'Roboto', sans-serif;
+    padding: 5% 10%;
+    font-style: normal ;
+    line-height: 1.875rem ;
+    letter-spacing: .1px;
+    /* padding-bottom: 44%;    */
 }
