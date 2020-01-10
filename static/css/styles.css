@@ -131,9 +131,10 @@ h6{
     line-height: 1;
     font-weight: bold;
     padding: 12px;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: steelblue;
     color: #fff;
     border-radius: 5px;
+    opacity: 0.6;
   }
 
 .d3-tip-pie{
