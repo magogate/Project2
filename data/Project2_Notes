@@ -1,0 +1,56 @@
+Intro to team	
+	Since time was limited, we decided to focus on GA	
+Objective
+	If we get an insurance client or insurance seekers, what data client would seek?
+	Where we got the data
+		USA data from Kaggle
+		2 websites.
+		
+Analysis
+	1. Accidents by locations
+		City --Show
+		County
+		Zip
+		Street-- Show
+		insurance company will decide based on your address locations
+	2. Traffic Signals By City & Street
+	
+
+As of now, we looked our data by Accidents Counts, but we also need to know the time frame of it
+We pulled this data from CSV...
+SO, lets look at the data by time.. so that we can analyze it by that..17 & 18
+		Year -- 
+			For year 17 & 18, as per data, accidents are higher in Apr/May/Jun/Jul whereas as year progresses Oct/Nov/Dec accidents are more
+				It may be because of Day Light Saving as Day becomes smaller, ppl drives in night.
+				Or may be because of holidays
+				Or Weather
+				
+			Filter for 17 & 18 accidents and data says same.. more accidents in Apr/May/Jun/Jul
+		Month
+			Filter for 2018 & Dec month
+		Day
+			Data says more accidents happens on Weekdays 
+		Time
+			Also, 73% accidents happens in Day whereas 27% happens in Night time
+				Filter for Night on Pie/ as it shows more accidents on year ends more
+			
+			Show the data by Night in month of May-2018 & Dec-2018
+			
+Weather
+	More accidents happens when weather is not clear
+	
+Heat Map
+		AS of now we looked at the data by Accidents Counts/Time & by Weather... but lets look at the same by Geographical / Density
+		
+		
+		Zoom in for GA Tech--- heat map shows more accidents highways
+			Enable Geo Layer just to show the county
+		Filter it for Traffic Signals-- and concentration on highways will go away.. and will move internally in downtown 
+		
+Population
+	Make sure Access Control Plugin is enabled
+	So, this data is derived from joining 2 data sets.. Accidents and Population by City & County
+	Since we wanted to see, if more population leads to more accidents .. we thought of creating a scatter chart which can show the co-relation between accidents and population
+	As per data, atlanta is outlier.. as other cities in GA don't have same trend
+	Same is the observation when you check the data by county
+	As per this analysis we can not really say more population leads to more accidents
