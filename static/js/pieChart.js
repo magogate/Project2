@@ -15,6 +15,8 @@
             
 function rederPieChart(data, id, colName){
 
+    console.log(data)
+
     let svgWidth = 350;
     let svgHeight = 350;
 
@@ -42,7 +44,9 @@ function rederPieChart(data, id, colName){
                 .offset([80, 40])
                 .html(function (d) {
                     var str = "" + d.data.accCounts + " (" + d.data.percentage + "%)";
-                        str += "<br><strong> Accident Year: " + d.data.time + "</strong>";
+                        (d.data.time == "Bad" || d.data.time == "Clear") ?
+                        str += "<br><strong> Weather Conditions : " + d.data.time + "</strong>" :
+                        str += "<br><strong> Accident Year : " + d.data.time + "</strong>";
                     return str;
                 });
 

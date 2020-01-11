@@ -220,7 +220,9 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     let acciCntByWeather = rendertAccidentsByLocation(filteredData, "Weather_Condition");
     renderTreeMap(acciCntByWeather, "weatherTreeMap", "Weather_Condition");
 
-    renderHeatMap(filteredData);
+    getClearWeatherData(filteredData)
+
+    renderHeatMap(filteredData);    
 
     // plotting chropleth, it has to be called only once
     renderChoropleth()
@@ -230,6 +232,27 @@ d3.csv("data/GA_Accidents_May19_Revised2.csv").then(function(myData, err) {
     // getCityPopulation()
 
 })//end of d3.read_csv
+
+function getClearWeatherData(data){
+  let formattedWeather = data.map(function(d){
+                           d.Weather_Condition != "Clear" ? d.Weather_Condition = "Bad" : "Clear";
+                           return d;
+                        })
+
+  let acciCntByWeather = aggregateData(formattedWeather, "Weather_Condition");
+  console.log("Inside weather...")
+  console.log(formattedWeather)
+  console.log(acciCntByWeather)
+  rederPieChart(acciCntByWeather.map(function(d){
+                                        return {
+                                                time: d.child,
+                                                accCounts: d.value,
+                                                percentage: d.percentage                                                
+                                        }
+                                    }), "weatherPie", "weather");
+  // renderTreeMap(acciCntByWeather, "weatherTreeMap", "Weather_Condition");
+  
+}//end of getClearWeatherData
 
 function getSunSetWiseAccCount(data){
   return aggregateData(
